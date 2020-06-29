@@ -20,28 +20,28 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import static camp.visual.libgaze.Gaze.initGaze;
 
-public class MainActivity extends AppCompatActivity implements EyesTracker.callback, AbstractRenderView.ViewCallback {
+public class MainActivity extends AppCompatActivity implements EyesTracker.callback, AbstractRenderView.ViewCallback,
+        Button.OnClickListener {
     private static final String TAG = MainActivity.class.getName();
     private AbstractRenderView mAnimationView = null;
     private EyesTracker mEyesTracker;
     private DataManager mDataManager;
     private boolean mDoRecord;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-
+        onHome();
         DeviceUtil.getInstance().init(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             DeviceUtil.getInstance().setDisplay(this.getDisplay());
@@ -50,7 +50,24 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
         }
         mDataManager = new DataManager(this);
         mDoRecord = false;
+
         doCheckPermission();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.animation:
+                Log.d(TAG, "click animation");
+                mAnimationView = new StartView(this, this);
+                setContentView(mAnimationView);
+                break;
+            case R.id.adjust:
+                Log.d(TAG, "click adjust");
+                mAnimationView = new AdjustView(this, this);
+                setContentView(mAnimationView);
+                break;
+        }
     }
 
     @Override
@@ -58,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
         /*this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                startView();
+                r();
             }
         });*/
     }
@@ -170,10 +187,24 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
     }
 
     @Override
-    public void onNext() {
+    public void onNext(int i) {
         mDoRecord = false;
-        mAnimationView = new SecondView(this, this);
-        setContentView(mAnimationView);
+        switch (i) {
+            case 1:
+                mAnimationView = new SecondView(this, this);
+                setContentView(mAnimationView);
+                break;
+            case 3:
+                onHome();
+                break;
+        }
+    }
+
+    @Override
+    public void onHome() {
+        setContentView(R.layout.activity_main);
+        ((Button) findViewById(R.id.animation)).setOnClickListener(this);
+        ((Button) findViewById(R.id.adjust)).setOnClickListener(this);
     }
 
     @Override

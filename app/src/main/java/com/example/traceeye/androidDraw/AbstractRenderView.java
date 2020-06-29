@@ -30,8 +30,8 @@ public class AbstractRenderView extends DrawView {
     }
 
     public interface ViewCallback {
-        void onNext();
-
+        void onNext(int stage);
+        void onHome();
         void onStartTrackerData();
 
         void onStopTrackerData();

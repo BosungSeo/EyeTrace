@@ -1,6 +1,5 @@
 package com.example.traceeye.androidDraw;
 
-import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,8 +10,11 @@ import android.graphics.RectF;
 import com.example.traceeye.DeviceUtil;
 
 public class StartView extends AbstractRenderView {
-    private float i;
+    private float i1;
+    private float i2;
+    private float i3;
     private Point mCP;
+    private final float SELECTION_SPEED = 7.2f;
     private final int RED_CIRCLE_SIZE = 200;
 
     public StartView(Context context, ViewCallback callback) {
@@ -23,30 +25,81 @@ public class StartView extends AbstractRenderView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (mTrackerX > mCP.x - RED_CIRCLE_SIZE && mTrackerX < mCP.x + RED_CIRCLE_SIZE
-                && mTrackerY > mCP.y - RED_CIRCLE_SIZE && mTrackerY < mCP.y + RED_CIRCLE_SIZE) {
-            i += 3.6f;
-        }
-        else i = 0.0f;
-
-        mPaint.setStrokeWidth(6f);
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setColor(Color.parseColor("#2F9D27"));
-        canvas.drawCircle(mCP.x,
-                mCP.y, RED_CIRCLE_SIZE, mPaint);
-        RectF rect = new RectF();
-        mPaint.setColor(Color.parseColor("#FF0000"));
-        rect.set(mCP.x - RED_CIRCLE_SIZE, mCP.y - RED_CIRCLE_SIZE
-                , mCP.x + RED_CIRCLE_SIZE, mCP.y + RED_CIRCLE_SIZE);
-        canvas.drawArc(rect, 270, i, false, mPaint);
-
         mPaint.setColor(Color.parseColor("#0000FF"));
         canvas.drawCircle(mTrackerX, mTrackerY, 10, mPaint);
         mPaint.setTextSize(50);
         mPaint.setColor(Color.parseColor("#000000"));
-        canvas.drawText("중앙에 원을 3초간 응시하시면 테스트 페이지로 넘어갑니다.", 100, 300, mPaint);
-        if (i > 360f) {
-            mViewCallback.onNext();
+        canvas.drawText("Test-1, Test-2, Go Home-H", mCP.x-100, 300, mPaint);
+        canvas.drawText("1.", mCP.x-100, mCP.y-600, mPaint);
+        canvas.drawText("Home", mCP.x-100, mCP.y+600, mPaint);
+        draw1(canvas,new Point(mCP.x,mCP.y-600));
+        draw2(canvas,new Point(mCP.x, mCP.y));
+        draw3(canvas,new Point(mCP.x, mCP.y+600));
+
+    }
+    private void draw1(Canvas canvas, Point cp) {
+        if (mTrackerX > cp.x - RED_CIRCLE_SIZE && mTrackerX < cp.x + RED_CIRCLE_SIZE
+                && mTrackerY > cp.y - RED_CIRCLE_SIZE && mTrackerY < cp.y + RED_CIRCLE_SIZE) {
+            i1 += SELECTION_SPEED;
+        }
+        else i1 = 0.0f;
+
+        mPaint.setStrokeWidth(6f);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setColor(Color.parseColor("#2F9D27"));
+        canvas.drawCircle(cp.x,
+                cp.y, RED_CIRCLE_SIZE, mPaint);
+        RectF rect = new RectF();
+        mPaint.setColor(Color.parseColor("#FF0000"));
+        rect.set(cp.x - RED_CIRCLE_SIZE, cp.y - RED_CIRCLE_SIZE
+                , cp.x + RED_CIRCLE_SIZE, cp.y + RED_CIRCLE_SIZE);
+        canvas.drawArc(rect, 270, i1, false, mPaint);
+
+
+        if (i1 > 360f) {
+            mViewCallback.onNext(1);
+        }
+    }
+    private void draw2(Canvas canvas, Point cp) {
+        if (mTrackerX > cp.x - RED_CIRCLE_SIZE && mTrackerX < cp.x + RED_CIRCLE_SIZE
+                && mTrackerY > cp.y - RED_CIRCLE_SIZE && mTrackerY < cp.y + RED_CIRCLE_SIZE) {
+            i2  += SELECTION_SPEED;
+        }
+        else i2 = 0.0f;
+
+        mPaint.setStrokeWidth(6f);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setColor(Color.parseColor("#2F9D27"));
+        canvas.drawCircle(cp.x,
+                cp.y, RED_CIRCLE_SIZE, mPaint);
+        RectF rect = new RectF();
+        mPaint.setColor(Color.parseColor("#FF0000"));
+        rect.set(cp.x - RED_CIRCLE_SIZE, cp.y - RED_CIRCLE_SIZE
+                , cp.x + RED_CIRCLE_SIZE, cp.y + RED_CIRCLE_SIZE);
+        canvas.drawArc(rect, 270, i2, false, mPaint);
+        if (i2 > 360f) {
+            mViewCallback.onNext(2);
+        }
+    }
+    private void draw3(Canvas canvas, Point cp) {
+        if (mTrackerX > cp.x - RED_CIRCLE_SIZE && mTrackerX < cp.x + RED_CIRCLE_SIZE
+                && mTrackerY > cp.y - RED_CIRCLE_SIZE && mTrackerY < cp.y + RED_CIRCLE_SIZE) {
+            i3  += SELECTION_SPEED;
+        }
+        else i3 = 0.0f;
+
+        mPaint.setStrokeWidth(6f);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setColor(Color.parseColor("#2F9D27"));
+        canvas.drawCircle(cp.x,
+                cp.y, RED_CIRCLE_SIZE, mPaint);
+        RectF rect = new RectF();
+        mPaint.setColor(Color.parseColor("#FF0000"));
+        rect.set(cp.x - RED_CIRCLE_SIZE, cp.y - RED_CIRCLE_SIZE
+                , cp.x + RED_CIRCLE_SIZE, cp.y + RED_CIRCLE_SIZE);
+        canvas.drawArc(rect, 270, i3, false, mPaint);
+        if (i3 > 360f) {
+            mViewCallback.onNext(3);
         }
     }
 }

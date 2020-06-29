@@ -100,12 +100,16 @@ public class AdjustView extends AbstractRenderView {
     }
 
     private void drawSecondStep(Canvas canvas) {
+        mCurrentFrame++;
         mPaint.setColor(Color.parseColor("#000000"));
         canvas.drawText("조절 완료.", 100, 300, mPaint);
+        canvas.drawText("잠시 후 처음 화면으로 넘어갑니다.", 100, 400, mPaint);
         mPaint.setColor(Color.parseColor("#FF0000"));
         canvas.drawCircle(mCP.x, mCP.y, 30, mPaint);
 
         mPaint.setColor(Color.parseColor("#0000FF"));
         canvas.drawCircle(mTrackerX, mTrackerY, 10, mPaint);
+        if(mCurrentFrame>(CHECK_COUNT*2))
+            mViewCallback.onHome();
     }
 }

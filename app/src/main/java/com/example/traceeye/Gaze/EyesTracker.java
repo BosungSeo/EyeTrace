@@ -67,7 +67,7 @@ public class EyesTracker {
 
         @Override
         public void onFilteredGaze(long timestamp, float x, float y, int state) {
-            Log.i(TAG, "gaze filterd coord " + x + "x" + y);
+            // Log.i(TAG, "gaze filterd coord " + x + "x" + y);
             mCallback.onChangePosition(Math.round(x), Math.round(y));
 
         }
