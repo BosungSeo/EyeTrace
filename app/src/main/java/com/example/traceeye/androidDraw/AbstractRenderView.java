@@ -85,6 +85,10 @@ abstract public class AbstractRenderView extends DrawView {
         canvas.drawCircle(mTrackerX, mTrackerY, 10, mPaint);
     }
 
+    private void readyStartDraw(Canvas canvas) {
+
+    }
+
     public interface ViewCallback {
         void onNext(int stage);
 

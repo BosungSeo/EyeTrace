@@ -8,10 +8,6 @@ import android.os.Bundle;
 
 import com.example.traceeye.Gaze.EyesTracker;
 import com.example.traceeye.androidDraw.AbstractRenderView;
-import com.example.traceeye.androidDraw.AdjustView;
-import com.example.traceeye.androidDraw.StageView1;
-import com.example.traceeye.androidDraw.StageView4;
-import com.example.traceeye.androidDraw.StartView;
 import com.example.traceeye.data.DataManager;
 
 import androidx.annotation.NonNull;
@@ -30,7 +26,9 @@ import static camp.visual.libgaze.Gaze.initGaze;
 import static com.example.traceeye.StageManager.ADJUST;
 import static com.example.traceeye.StageManager.STAGE1;
 import static com.example.traceeye.StageManager.STAGE2;
+import static com.example.traceeye.StageManager.STAGE3;
 import static com.example.traceeye.StageManager.STAGE4;
+import static com.example.traceeye.StageManager.STAGE_REPORT;
 
 public class MainActivity extends AppCompatActivity implements EyesTracker.callback, AbstractRenderView.ViewCallback,
         Button.OnClickListener {
@@ -61,11 +59,27 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.animation:
+            case R.id.view1Btn:
+                Log.d(TAG, "click animation");
+                setContentView(mStageManager.getStage(STAGE1));
+                break;
+            case R.id.view2Btn:
                 Log.d(TAG, "click animation");
                 setContentView(mStageManager.getStage(STAGE2));
                 break;
-            case R.id.adjust:
+            case R.id.view3Btn:
+                Log.d(TAG, "click animation");
+                setContentView(mStageManager.getStage(STAGE3));
+                break;
+            case R.id.view4Btn:
+                Log.d(TAG, "click animation");
+                setContentView(mStageManager.getStage(STAGE4));
+                break;
+            case R.id.viewReportBtn:
+                Log.d(TAG, "click animation");
+                setContentView(mStageManager.getStage(STAGE_REPORT));
+                break;
+            case R.id.viewCalBtn:
                 Log.d(TAG, "click adjust");
                 setContentView(mStageManager.getStage(ADJUST));
                 break;
@@ -209,8 +223,12 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
     @Override
     public void onHome() {
         setContentView(R.layout.activity_main);
-        ((Button) findViewById(R.id.animation)).setOnClickListener(this);
-        ((Button) findViewById(R.id.adjust)).setOnClickListener(this);
+        ((Button) findViewById(R.id.viewReportBtn)).setOnClickListener(this);
+        ((Button) findViewById(R.id.view1Btn)).setOnClickListener(this);
+        ((Button) findViewById(R.id.view2Btn)).setOnClickListener(this);
+        ((Button) findViewById(R.id.view3Btn)).setOnClickListener(this);
+        ((Button) findViewById(R.id.view4Btn)).setOnClickListener(this);
+        ((Button) findViewById(R.id.viewCalBtn)).setOnClickListener(this);
     }
 
     @Override
