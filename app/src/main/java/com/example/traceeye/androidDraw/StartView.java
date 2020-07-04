@@ -22,27 +22,25 @@ public class StartView extends AbstractRenderView {
         mCP = new Point(DeviceUtil.getInstance().getDisplayWidth() / 2, DeviceUtil.getInstance().getDisplayHeight() / 2);
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    protected void drawImpl(Canvas canvas) {
         mPaint.setColor(Color.parseColor("#0000FF"));
         canvas.drawCircle(mTrackerX, mTrackerY, 10, mPaint);
         mPaint.setTextSize(50);
         mPaint.setColor(Color.parseColor("#000000"));
-        canvas.drawText("Test-1, Test-2, Go Home-H", mCP.x-100, 300, mPaint);
-        canvas.drawText("1.", mCP.x-100, mCP.y-600, mPaint);
-        canvas.drawText("Home", mCP.x-100, mCP.y+600, mPaint);
-        draw1(canvas,new Point(mCP.x,mCP.y-600));
-        draw2(canvas,new Point(mCP.x, mCP.y));
-        draw3(canvas,new Point(mCP.x, mCP.y+600));
+        canvas.drawText("Test-1, Test-2, Go Home-H", mCP.x - 100, 300, mPaint);
+        canvas.drawText("1.", mCP.x - 100, mCP.y - 600, mPaint);
+        canvas.drawText("Home", mCP.x - 100, mCP.y + 600, mPaint);
+        draw1(canvas, new Point(mCP.x, mCP.y - 600));
+        draw2(canvas, new Point(mCP.x, mCP.y));
+        draw3(canvas, new Point(mCP.x, mCP.y + 600));
 
     }
+
     private void draw1(Canvas canvas, Point cp) {
         if (mTrackerX > cp.x - RED_CIRCLE_SIZE && mTrackerX < cp.x + RED_CIRCLE_SIZE
                 && mTrackerY > cp.y - RED_CIRCLE_SIZE && mTrackerY < cp.y + RED_CIRCLE_SIZE) {
             i1 += SELECTION_SPEED;
-        }
-        else i1 = 0.0f;
+        } else i1 = 0.0f;
 
         mPaint.setStrokeWidth(6f);
         mPaint.setStyle(Paint.Style.STROKE);
@@ -60,12 +58,12 @@ public class StartView extends AbstractRenderView {
             mViewCallback.onNext(1);
         }
     }
+
     private void draw2(Canvas canvas, Point cp) {
         if (mTrackerX > cp.x - RED_CIRCLE_SIZE && mTrackerX < cp.x + RED_CIRCLE_SIZE
                 && mTrackerY > cp.y - RED_CIRCLE_SIZE && mTrackerY < cp.y + RED_CIRCLE_SIZE) {
-            i2  += SELECTION_SPEED;
-        }
-        else i2 = 0.0f;
+            i2 += SELECTION_SPEED;
+        } else i2 = 0.0f;
 
         mPaint.setStrokeWidth(6f);
         mPaint.setStyle(Paint.Style.STROKE);
@@ -81,12 +79,12 @@ public class StartView extends AbstractRenderView {
             mViewCallback.onNext(2);
         }
     }
+
     private void draw3(Canvas canvas, Point cp) {
         if (mTrackerX > cp.x - RED_CIRCLE_SIZE && mTrackerX < cp.x + RED_CIRCLE_SIZE
                 && mTrackerY > cp.y - RED_CIRCLE_SIZE && mTrackerY < cp.y + RED_CIRCLE_SIZE) {
-            i3  += SELECTION_SPEED;
-        }
-        else i3 = 0.0f;
+            i3 += SELECTION_SPEED;
+        } else i3 = 0.0f;
 
         mPaint.setStrokeWidth(6f);
         mPaint.setStyle(Paint.Style.STROKE);

@@ -5,6 +5,7 @@ import android.opengl.GLSurfaceView;
 
 public class FirstGLView extends GLSurfaceView {
     private final TestRendere mRenderer;
+
     public FirstGLView(Context context) {
         super(context);
 

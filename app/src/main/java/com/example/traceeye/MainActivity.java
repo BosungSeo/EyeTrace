@@ -2,21 +2,20 @@ package com.example.traceeye;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 
 import com.example.traceeye.Gaze.EyesTracker;
 import com.example.traceeye.androidDraw.AbstractRenderView;
 import com.example.traceeye.androidDraw.AdjustView;
-import com.example.traceeye.androidDraw.SecondView;
+import com.example.traceeye.androidDraw.StageView1;
+import com.example.traceeye.androidDraw.StageView4;
 import com.example.traceeye.androidDraw.StartView;
 import com.example.traceeye.data.DataManager;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import android.provider.Settings;
@@ -28,13 +27,17 @@ import android.view.MenuItem;
 import android.widget.Button;
 
 import static camp.visual.libgaze.Gaze.initGaze;
+import static com.example.traceeye.StageManager.ADJUST;
+import static com.example.traceeye.StageManager.STAGE1;
+import static com.example.traceeye.StageManager.STAGE2;
+import static com.example.traceeye.StageManager.STAGE4;
 
 public class MainActivity extends AppCompatActivity implements EyesTracker.callback, AbstractRenderView.ViewCallback,
         Button.OnClickListener {
     private static final String TAG = MainActivity.class.getName();
-    private AbstractRenderView mAnimationView = null;
     private EyesTracker mEyesTracker;
     private DataManager mDataManager;
+    private StageManager mStageManager;
     private boolean mDoRecord;
 
 
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
         }
         mDataManager = new DataManager(this);
         mDoRecord = false;
+        mStageManager = new StageManager(this, this);
 
         doCheckPermission();
     }
@@ -59,13 +63,11 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
         switch (view.getId()) {
             case R.id.animation:
                 Log.d(TAG, "click animation");
-                mAnimationView = new StartView(this, this);
-                setContentView(mAnimationView);
+                setContentView(mStageManager.getStage(STAGE2));
                 break;
             case R.id.adjust:
                 Log.d(TAG, "click adjust");
-                mAnimationView = new AdjustView(this, this);
-                setContentView(mAnimationView);
+                setContentView(mStageManager.getStage(ADJUST));
                 break;
         }
     }
@@ -81,14 +83,20 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
     }
 
     private void startView() {
-        mAnimationView = new AdjustView(this, this);
-        setContentView(mAnimationView);
+        setContentView(mStageManager.getStage(ADJUST));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mEyesTracker.stop();
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        DeviceUtil.getInstance().changeOrient();
+        mStageManager.onOrientationChange();
     }
 
     private static final String[] PERMISSIONS = new String[]
@@ -182,8 +190,7 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
         if (mDoRecord) {
             mDataManager.recordTracker(x, y);
         }
-        if (mAnimationView != null)
-            mAnimationView.draw(x, y);
+        mStageManager.draw(x, y);
     }
 
     @Override
@@ -191,8 +198,7 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
         mDoRecord = false;
         switch (i) {
             case 1:
-                mAnimationView = new SecondView(this, this);
-                setContentView(mAnimationView);
+                setContentView(mStageManager.getStage(STAGE4));
                 break;
             case 3:
                 onHome();

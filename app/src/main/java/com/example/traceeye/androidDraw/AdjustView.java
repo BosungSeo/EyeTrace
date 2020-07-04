@@ -1,5 +1,6 @@
 package com.example.traceeye.androidDraw;
 
+import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -26,14 +27,15 @@ public class AdjustView extends AbstractRenderView {
         mCurrentFrame = 0;
         // init device adjust.
         DeviceUtil.getInstance().setAdjustPoint(new Point(0, 0));
+        DeviceUtil.getInstance().setShowPoint(false);
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    protected void drawImpl(Canvas canvas) {
         if (mCurrentFrame < CHECK_COUNT) {
             drawFirstStep(canvas);
         } else {
+            DeviceUtil.getInstance().setShowPoint(true);
             drawSecondStep(canvas);
         }
     }
@@ -56,7 +58,7 @@ public class AdjustView extends AbstractRenderView {
             }
         }
         if (avList.size() > (CHECK_COUNT / 2)) {
-            Log.d("XXXX","Test Complete");
+            Log.d("XXXX", "Test Complete");
             totalX = 0;
             totalY = 0;
             for (Point p : avList) {
@@ -65,12 +67,12 @@ public class AdjustView extends AbstractRenderView {
             }
             avX = totalX / avList.size();
             avY = totalY / avList.size();
-            DeviceUtil.getInstance().setAdjustPoint(new Point(mCP.x-avX, mCP.y-avY));
-            Log.d("XXXX","Success count is "+avList.size());
-            Log.d("XXXX","Position is X "+DeviceUtil.getInstance().getAdjustX()+" Y "
-                    +DeviceUtil.getInstance().getAdjustY());
+            DeviceUtil.getInstance().setAdjustPoint(new Point(mCP.x - avX, mCP.y - avY));
+            Log.d("XXXX", "Success count is " + avList.size());
+            Log.d("XXXX", "Position is X " + DeviceUtil.getInstance().getAdjustX() + " Y "
+                    + DeviceUtil.getInstance().getAdjustY());
         } else {
-            Log.d("XXXX","Fail"+avList.size());
+            Log.d("XXXX", "Fail" + avList.size());
             mCurrentFrame = 0;
         }
         mAdjustDataList.clear();
@@ -82,8 +84,7 @@ public class AdjustView extends AbstractRenderView {
         mPaint.setColor(Color.parseColor("#000000"));
         if (mCurrentFrame < 100) {
             canvas.drawText("측정을 다시 합니다..", 100, 400, mPaint);
-        }
-        else {
+        } else {
             canvas.drawText("카메라와 시야를 조절합니다.", 100, 400, mPaint);
         }
         canvas.drawText("중앙에 원을 보세요.", 100, 300, mPaint);
@@ -109,7 +110,7 @@ public class AdjustView extends AbstractRenderView {
 
         mPaint.setColor(Color.parseColor("#0000FF"));
         canvas.drawCircle(mTrackerX, mTrackerY, 10, mPaint);
-        if(mCurrentFrame>(CHECK_COUNT*2))
+        if (mCurrentFrame > (CHECK_COUNT * 2))
             mViewCallback.onHome();
     }
 }

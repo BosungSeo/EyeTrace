@@ -7,28 +7,26 @@ import android.graphics.Point;
 
 import com.example.traceeye.DeviceUtil;
 
-public class SecondView extends AbstractRenderView {
+public class StageView4 extends AbstractRenderView {
     private Point mPoint;
     private int mRight;
     private final int SPEED = 10;
-    private final int MARGIN = 30+SPEED;
+    private final int MARGIN = 30 + SPEED;
     private boolean direction = false;
 
-    public SecondView(Context context, ViewCallback callback) {
+    public StageView4(Context context, ViewCallback callback) {
         super(context, callback);
         mPoint = new Point(MARGIN, DeviceUtil.getInstance().getDisplayHeight() / 2);
         mRight = DeviceUtil.getInstance().getDisplayWidth() - MARGIN;
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    protected void drawImpl(Canvas canvas) {
 
         if (direction) {
-            mPoint.x = mPoint.x-SPEED;
+            mPoint.x = mPoint.x - SPEED;
             if (mPoint.x < MARGIN) direction = false;
         } else {
-            mPoint.x = mPoint.x+SPEED;
+            mPoint.x = mPoint.x + SPEED;
             if (mPoint.x > mRight) direction = true;
         }
 

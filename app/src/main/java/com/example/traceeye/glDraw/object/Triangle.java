@@ -28,13 +28,13 @@ public class Triangle {
     //0. float 배열에 삼각형의 vertex를 위한 좌표를 넣습니다.
     static final int COORDS_PER_VERTEX = 3;
     static float triangleCoords[] = {   //넣는 순서는 반시계 방향입니다.
-            0.0f,  0.622008459f, 0.0f, // 상단 vertex
+            0.0f, 0.622008459f, 0.0f, // 상단 vertex
             -0.5f, -0.311004243f, 0.0f, // 왼쪽 아래 vertex
             0.5f, -0.311004243f, 0.0f  // 오른쪽 아래 vertex
     };
 
     //red, green, blue, alpha 값을 float 배열 color에 넣습니다.
-    float color[] = { 0.63671875f, 0.76953125f, 0.22265625f, 1.0f };
+    float color[] = {0.63671875f, 0.76953125f, 0.22265625f, 1.0f};
 
     public Triangle() {
         //1.ByteBuffer를 할당 받습니다.
@@ -77,6 +77,7 @@ public class Triangle {
         // program객체를 OpenGL에 연결한다. program에 추가된 shader들이 OpenGL에 연결된다.
         GLES20.glLinkProgram(mProgram);
     }
+
     private int mPositionHandle;
     private int mColorHandle;
 
@@ -104,7 +105,6 @@ public class Triangle {
 
         //triangle 렌더링시 사용할 색으로 color변수에 정의한 값을 사용한다.
         GLES20.glUniform4fv(mColorHandle, 1, color, 0);
-
 
 
         //vertex 갯수만큼 tiangle을 렌더링한다.

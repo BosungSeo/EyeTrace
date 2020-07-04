@@ -16,22 +16,26 @@ public class EyesTracker {
     private GazeTracker mGazeTracker = null;
     Context mContext;
     callback mCallback;
+
     public EyesTracker(Context c, callback pCallback) {
         mContext = c;
         mCallback = pCallback;
     }
+
     public void stop() {
-        if(mGazeTracker != null) {
+        if (mGazeTracker != null) {
             this.mGazeTracker.stopTracking();
             this.mGazeTracker.removeCallbacks();
         }
     }
+
     public void initGaze() {
         GazeDevice gazeDevice = new GazeDevice();
         gazeDevice.addDeviceInfo("SM-T720", -72f, -4f); // tab s5e
         String licenseKey = "dev_nsxejtconuuwunblh6u6ahcepo3qj3tix528n4xk";
         GazeTracker.initGazeTracker(mContext.getApplicationContext(), gazeDevice, licenseKey, initializationCallback);
     }
+
     private void initSuccess(GazeTracker gazeTracker) {
         this.mGazeTracker = gazeTracker;
         //if (preview.isAvailable()) {
@@ -42,6 +46,7 @@ public class EyesTracker {
         this.mCallback.onStartTracker();
         // this.gazeTracker.hideProgress();
     }
+
     private void initFail(int error) {
         String err = "";
         if (error == InitializationErrorType.ERROR_CAMERA_PERMISSION) {
@@ -95,8 +100,10 @@ public class EyesTracker {
             }
         }
     };
+
     public interface callback {
         void onChangePosition(int x, int y);
+
         void onStartTracker();
     }
 }

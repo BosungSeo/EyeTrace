@@ -11,12 +11,14 @@ import javax.microedition.khronos.opengles.GL10;
 public class TestRendere implements GLSurfaceView.Renderer {
 
     private Triangle mTriangle;
-    public static int loadShader(int type, String shaderCode){
+
+    public static int loadShader(int type, String shaderCode) {
         int shader = GLES20.glCreateShader(type);
         GLES20.glShaderSource(shader, shaderCode);
         GLES20.glCompileShader(shader);
         return shader;
     }
+
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         //color buffer를 클리어할 때 사용할 색을 지정합니다.

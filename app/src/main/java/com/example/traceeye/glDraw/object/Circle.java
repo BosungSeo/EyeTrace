@@ -37,11 +37,10 @@ public class Circle {
 
     public Circle() {
         double rad = 0.5;
-        for(int i=0;i<360;i++)
-        {
-            double angle = i*3.141592 / 180;
-            double x = rad*cos(angle);
-            double y = rad*sin(angle);
+        for (int i = 0; i < 360; i++) {
+            double angle = i * 3.141592 / 180;
+            double x = rad * cos(angle);
+            double y = rad * sin(angle);
 //            glVertex2f(x,y);
         }
 

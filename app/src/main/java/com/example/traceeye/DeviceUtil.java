@@ -13,6 +13,8 @@ public class DeviceUtil {
     private Point mPoint;
     private Point mAdjustPoint;
     private Context mContext;
+    private Display mDisplay;
+    private boolean mShowPoint = true;
 
     private DeviceUtil() {
     }
@@ -23,28 +25,44 @@ public class DeviceUtil {
         }
         return INSTANCE;
     }
+
     public void init(Context c) {
         mContext = c;
         mAdjustPoint = new Point();
-        SharedPreferences prefs = mContext.getSharedPreferences(TAG,Context.MODE_PRIVATE);
-        mAdjustPoint.x = prefs.getInt("x",0);
-        mAdjustPoint.y = prefs.getInt("y",0);
-        Log.d(TAG, "init - Cal X : "+mAdjustPoint.x+ "     Y : "+mAdjustPoint.y);
+        SharedPreferences prefs = mContext.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        mAdjustPoint.x = prefs.getInt("x", 0);
+        mAdjustPoint.y = prefs.getInt("y", 0);
+        Log.d(TAG, "init - Cal X : " + mAdjustPoint.x + "     Y : " + mAdjustPoint.y);
     }
+
+    public void setShowPoint(boolean b) {
+        mShowPoint = b;
+    }
+
+    public boolean getShowPoint() {
+        return mShowPoint;
+    }
+
     public void setDisplay(Display d) {
+        mDisplay = d;
         mPoint = new Point();
-        d.getRealSize(mPoint);
+        mDisplay.getRealSize(mPoint);
+    }
+
+    public void changeOrient() {
+        mDisplay.getRealSize(mPoint);
+        Log.d(TAG, "Width=" + mPoint.x + " Height=" + mPoint.y);
     }
 
     public void setAdjustPoint(Point adjust) {
-        SharedPreferences prefs = mContext.getSharedPreferences(TAG,Context.MODE_PRIVATE);
+        SharedPreferences prefs = mContext.getSharedPreferences(TAG, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("x", adjust.x);
         editor.putInt("y", adjust.y);
         editor.commit();
         mAdjustPoint.x = adjust.x;
         mAdjustPoint.y = adjust.y;
-        Log.d(TAG, "setAdjustPoint - Cal X : "+mAdjustPoint.x+ "     Y : "+mAdjustPoint.y);
+        Log.d(TAG, "setAdjustPoint - Cal X : " + mAdjustPoint.x + "     Y : " + mAdjustPoint.y);
     }
 
     public int getAdjustX() {
