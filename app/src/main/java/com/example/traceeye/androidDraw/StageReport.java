@@ -8,7 +8,7 @@ import android.graphics.Rect;
 
 import com.example.traceeye.DeviceUtil;
 
-public class StageView4 extends AbstractRenderView {
+public class StageReport extends AbstractRenderView {
     private Point mPoint;
     private final int SPEED = 10;
     private final int MARGIN = 200;
@@ -16,7 +16,7 @@ public class StageView4 extends AbstractRenderView {
     private int mGoSpeedY;
     private Rect mBound;
 
-    public StageView4(Context context, ViewCallback callback) {
+    public StageReport(Context context, ViewCallback callback) {
         super(context, callback);
 
         mPoint = new Point(DeviceUtil.getInstance().getDisplayWidth() / 2, DeviceUtil.getInstance().getDisplayHeight() / 2);

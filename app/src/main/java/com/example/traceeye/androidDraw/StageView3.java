@@ -13,36 +13,36 @@ import com.example.traceeye.R;
 
 public class StageView3 extends AbstractRenderView {
     private Point mPoint;
-    private int mRight;
-    private final int SPEED = 10;
-    private final int MARGIN = 30 + SPEED;
-    private boolean direction = false;
+    private int mCount = 0;
+    private final int MARGIN = 100;
+    private final int CHANGE_FRAME = 60;
+    private Point mRandomRange;
+
     Bitmap mBitmap;
 
     public StageView3(Context context, ViewCallback callback) {
         super(context, callback);
         BitmapDrawable bd = (BitmapDrawable) context.getResources().getDrawable(R.drawable.ho);
         mBitmap = bd.getBitmap();
-        mPoint = new Point(MARGIN, DeviceUtil.getInstance().getDisplayHeight() / 2);
-        mRight = DeviceUtil.getInstance().getDisplayWidth() - MARGIN;
+        mPoint = new Point();
+        mRandomRange = new Point(DeviceUtil.getInstance().getDisplayWidth() - MARGIN,
+                DeviceUtil.getInstance().getDisplayHeight() - MARGIN);
+        randomGenerator();
+    }
+
+    private void randomGenerator() {
+        mPoint.x = (int) (Math.random() * mRandomRange.x) + (MARGIN / 2);
+        mPoint.y = (int) (Math.random() * mRandomRange.y) + (MARGIN / 2);
     }
 
     protected void drawImpl(Canvas canvas) {
-
-        if (direction) {
-            mPoint.x = mPoint.x - SPEED;
-            if (mPoint.x < MARGIN) direction = false;
-        } else {
-            mPoint.x = mPoint.x + SPEED;
-            if (mPoint.x > mRight) direction = true;
+        mCount++;
+        if (mCount % CHANGE_FRAME == 0) {
+            randomGenerator();
         }
 
-        mPaint.setColor(Color.parseColor("#2F9D27"));
-        canvas.drawCircle(mTrackerX, mTrackerY, 10, mPaint);
-
-        mPaint.setColor(Color.parseColor("#FF0000"));
-        canvas.drawCircle(mPoint.x, mPoint.y, 40, mPaint);
-
-        canvas.drawBitmap(mBitmap, 0, 0, mPaint);
+        canvas.drawBitmap(mBitmap, mPoint.x, mPoint.y, mPaint);
+        if (mCount > CHANGE_FRAME * 10)
+            goHome();
     }
 }

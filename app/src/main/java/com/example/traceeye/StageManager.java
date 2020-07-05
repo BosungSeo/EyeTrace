@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.AsyncListUtil;
 import com.example.traceeye.androidDraw.AbstractRenderView;
 import com.example.traceeye.androidDraw.AbstractRenderView.ViewCallback;
 import com.example.traceeye.androidDraw.AdjustView;
+import com.example.traceeye.androidDraw.StageReport;
 import com.example.traceeye.androidDraw.StageView1;
 import com.example.traceeye.androidDraw.StageView2;
 import com.example.traceeye.androidDraw.StageView3;
@@ -54,8 +55,8 @@ public class StageManager {
                 return new StageView3(mContext, mCallback);
             case STAGE4:
                 return new StageView4(mContext, mCallback);
-            /*case STAGE_REPORT:
-                return new StageView4(mContext, mCallback);*/
+            case STAGE_REPORT:
+                return new StageReport(mContext, mCallback);
             case ADJUST:
                 return new AdjustView(mContext, mCallback);
         }
