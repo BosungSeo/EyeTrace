@@ -66,6 +66,10 @@ abstract public class AbstractRenderView extends DrawView {
         mViewCallback.onHome();
     }
 
+    public void finish() {
+        mViewCallback.onFinishRecode();
+    }
+
     public void goNext(int stage) {
         mViewCallback.onNext(stage);
     }
@@ -114,5 +118,7 @@ abstract public class AbstractRenderView extends DrawView {
         void onStopTrackerData();
 
         void onRecodeTargetPosition(int eyeX, int eyeY, int targetX, int targetY);
+
+        void onFinishRecode();
     }
 }

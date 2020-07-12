@@ -54,6 +54,7 @@ public class StageView1 extends AbstractRenderView {
     protected void drawImpl(Canvas canvas) {
         mCount++;
         if (mCount >= SPEED * 10) {
+            finish();
             goHome();
             return;
         }

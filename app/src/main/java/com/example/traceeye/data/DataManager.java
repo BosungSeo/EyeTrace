@@ -27,7 +27,7 @@ public class DataManager {
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
     public DataManager(Context c) {
-        databaseReference.setValue(mDataList);
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -48,6 +48,13 @@ public class DataManager {
     public void recordTracker(int eyeX, int eyeY, int targetX, int targetY) {
         LogUtil.d("X:$(eyeX) Y:$(eyeY)");
         mDataList.add(new DataObject(eyeX, eyeY, targetX, targetY));
+    }
+
+    public void saveData() {
+
+        for (DataObject data : mDataList) {
+            databaseReference.setValue(data.toString());
+        }
     }
 
     public void resetRecordData() {

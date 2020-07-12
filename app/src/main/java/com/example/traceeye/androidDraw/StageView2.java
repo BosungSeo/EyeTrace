@@ -79,6 +79,7 @@ public class StageView2 extends AbstractRenderView {
         int c = mCount / FRAME;
         if (FRAME_SCENE == c) {
             goHome();
+            finish();
             return;
         }
 

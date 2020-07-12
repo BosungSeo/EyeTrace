@@ -262,4 +262,10 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
             mDataManager.recordTracker(eyeX, eyeY, targetX, targetY);
         }
     }
+
+    @Override
+    public void onFinishRecode() {
+        mDataManager.saveData();
+        mDataManager.resetRecordData();
+    }
 }
