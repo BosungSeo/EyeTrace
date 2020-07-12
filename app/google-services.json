@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "301967517719",
+    "firebase_url": "https://eyetracker-da9c0.firebaseio.com",
+    "project_id": "eyetracker-da9c0",
+    "storage_bucket": "eyetracker-da9c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:301967517719:android:08d622db73963e690e1452",
+        "android_client_info": {
+          "package_name": "com.example.traceeye"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "301967517719-p1uocplqgf7f86kn63hd1qfp0a2l8im1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaX_NqKZgxKcGfFYNIZM-QZIcBnajxgMo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "301967517719-p1uocplqgf7f86kn63hd1qfp0a2l8im1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

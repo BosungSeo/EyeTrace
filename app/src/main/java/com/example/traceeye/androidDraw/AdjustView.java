@@ -4,7 +4,9 @@ import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.RectF;
 import android.util.Log;
 
 import com.example.traceeye.DeviceUtil;
@@ -18,6 +20,8 @@ public class AdjustView extends AbstractRenderView {
     private final int CHECK_COUNT = 300;
     private final int ADJUST_RANGE = 100;
     private int mCurrentFrame;
+    private int mCircleCount;
+    private final int RED_CIRCLE_SIZE = 100;
     private ArrayList<Point> mAdjustDataList = new ArrayList<>();
 
     public AdjustView(Context context, ViewCallback callback) {
@@ -27,7 +31,7 @@ public class AdjustView extends AbstractRenderView {
         mCurrentFrame = 0;
         // init device adjust.
         DeviceUtil.getInstance().setAdjustPoint(new Point(0, 0));
-        DeviceUtil.getInstance().setShowPoint(false);
+        mCircleCount = mReadCount;
     }
 
     @Override
@@ -35,7 +39,6 @@ public class AdjustView extends AbstractRenderView {
         if (mCurrentFrame < CHECK_COUNT) {
             drawFirstStep(canvas);
         } else {
-            DeviceUtil.getInstance().setShowPoint(true);
             drawSecondStep(canvas);
         }
     }
@@ -79,6 +82,7 @@ public class AdjustView extends AbstractRenderView {
     }
 
     private void drawFirstStep(Canvas canvas) {
+        mPaint.setStyle(Paint.Style.FILL);
         mPaint.setTextSize(50);
         mCurrentFrame++;
         mPaint.setColor(Color.parseColor("#000000"));
@@ -100,8 +104,28 @@ public class AdjustView extends AbstractRenderView {
         }
     }
 
+    protected void readyStartDraw(Canvas canvas) {
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setTextSize(150);
+        mPaint.setTextAlign(Paint.Align.CENTER);
+        mPaint.setColor(Color.parseColor("#000000"));
+        int x = DeviceUtil.getInstance().getDisplayWidth() / 2;
+        int y = DeviceUtil.getInstance().getDisplayHeight() / 2;
+        canvas.drawText("Ready?", x, y - 150, mPaint);
+        canvas.drawText(Integer.toString(mReadCount / FRAME + 1), x, y + 50, mPaint);
+
+        mPaint.setStrokeWidth(6f);
+        mPaint.setStyle(Paint.Style.STROKE);
+        RectF rect = new RectF();
+        mPaint.setColor(Color.parseColor("#FF0000"));
+        rect.set(mCP.x - RED_CIRCLE_SIZE, mCP.y - RED_CIRCLE_SIZE
+                , mCP.x + RED_CIRCLE_SIZE, mCP.y + RED_CIRCLE_SIZE);
+        canvas.drawArc(rect, 0, (360 * (((mCircleCount - mReadCount) * 100) / mCircleCount)) / 100, false, mPaint);
+    }
+
     private void drawSecondStep(Canvas canvas) {
         mCurrentFrame++;
+        mPaint.setStyle(Paint.Style.FILL);
         mPaint.setColor(Color.parseColor("#000000"));
         canvas.drawText("조절 완료.", 100, 300, mPaint);
         canvas.drawText("잠시 후 처음 화면으로 넘어갑니다.", 100, 400, mPaint);

@@ -9,8 +9,17 @@ import android.os.Bundle;
 import com.example.traceeye.Gaze.EyesTracker;
 import com.example.traceeye.androidDraw.AbstractRenderView;
 import com.example.traceeye.data.DataManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -21,6 +30,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.CheckBox;
 
 import static camp.visual.libgaze.Gaze.initGaze;
 import static com.example.traceeye.StageManager.ADJUST;
@@ -30,20 +40,21 @@ import static com.example.traceeye.StageManager.STAGE3;
 import static com.example.traceeye.StageManager.STAGE4;
 import static com.example.traceeye.StageManager.STAGE_REPORT;
 
+
 public class MainActivity extends AppCompatActivity implements EyesTracker.callback, AbstractRenderView.ViewCallback,
         Button.OnClickListener {
+
     private static final String TAG = MainActivity.class.getName();
     private EyesTracker mEyesTracker;
     private DataManager mDataManager;
     private StageManager mStageManager;
     private boolean mDoRecord;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        onHome();
         DeviceUtil.getInstance().init(this);
+        onHome();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             DeviceUtil.getInstance().setDisplay(this.getDisplay());
         } else {
@@ -81,19 +92,23 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
                 break;
             case R.id.viewCalBtn:
                 Log.d(TAG, "click adjust");
+                DeviceUtil.getInstance().resetAdjustPoint();
                 setContentView(mStageManager.getStage(ADJUST));
                 break;
+            case R.id.checkBox:
+                CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
+                if (checkBox.isChecked()) {
+                    Log.d(TAG, "click isChecked");
+                    DeviceUtil.getInstance().setShowPoint(true);
+                } else {
+                    Log.d(TAG, "click isChecked false");
+                    DeviceUtil.getInstance().setShowPoint(false);
+                }
         }
     }
 
     @Override
     public void onStartTracker() {
-        /*this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                r();
-            }
-        });*/
     }
 
     private void startView() {
@@ -201,15 +216,12 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
 
     @Override
     public void onChangePosition(int x, int y) {
-        if (mDoRecord) {
-            mDataManager.recordTracker(x, y);
-        }
         mStageManager.draw(x, y);
     }
 
     @Override
     public void onNext(int i) {
-        mDoRecord = false;
+        onStopTrackerData();
         switch (i) {
             case 1:
                 setContentView(mStageManager.getStage(STAGE4));
@@ -222,6 +234,7 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
 
     @Override
     public void onHome() {
+        onStopTrackerData();
         setContentView(R.layout.activity_main);
         ((Button) findViewById(R.id.viewReportBtn)).setOnClickListener(this);
         ((Button) findViewById(R.id.view1Btn)).setOnClickListener(this);
@@ -229,6 +242,8 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
         ((Button) findViewById(R.id.view3Btn)).setOnClickListener(this);
         ((Button) findViewById(R.id.view4Btn)).setOnClickListener(this);
         ((Button) findViewById(R.id.viewCalBtn)).setOnClickListener(this);
+        ((CheckBox) findViewById(R.id.checkBox)).setOnClickListener(this);
+        ((CheckBox) findViewById(R.id.checkBox)).setChecked(DeviceUtil.getInstance().getShowPoint());
     }
 
     @Override
@@ -239,5 +254,12 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
     @Override
     public void onStopTrackerData() {
         mDoRecord = false;
+    }
+
+    @Override
+    public void onRecodeTargetPosition(int eyeX, int eyeY, int targetX, int targetY) {
+        if (mDoRecord) {
+            mDataManager.recordTracker(eyeX, eyeY, targetX, targetY);
+        }
     }
 }

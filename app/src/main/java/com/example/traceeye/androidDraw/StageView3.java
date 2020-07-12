@@ -42,6 +42,7 @@ public class StageView3 extends AbstractRenderView {
         }
 
         canvas.drawBitmap(mBitmap, mPoint.x, mPoint.y, mPaint);
+        mViewCallback.onRecodeTargetPosition(mTrackerX, mTrackerY, mPoint.x, mPoint.y);
         if (mCount > CHANGE_FRAME * 10)
             goHome();
     }

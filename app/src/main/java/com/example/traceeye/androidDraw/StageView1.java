@@ -72,6 +72,7 @@ public class StageView1 extends AbstractRenderView {
         mPaint.setColor(Color.BLUE);
         mPaint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(mObjects[mCount / SPEED].x, mObjects[mCount / SPEED].y, 80, mPaint);
+        mViewCallback.onRecodeTargetPosition(mTrackerX, mTrackerY, mObjects[mCount / SPEED].x, mObjects[mCount / SPEED].y);
     }
 
     private void onDrawGuideLine(Canvas canvas) {

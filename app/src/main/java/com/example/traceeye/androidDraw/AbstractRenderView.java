@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
-import android.view.View;
 
 import com.example.traceeye.DeviceUtil;
 
@@ -18,8 +16,11 @@ abstract public class AbstractRenderView extends DrawView {
     protected int mYGuidLineLength = DeviceUtil.getInstance().getDisplayHeight() / 100;
     protected int[] mXGuideLine = new int[mXGuidLineLength];
     protected int[] mYGuideLine = new int[mYGuidLineLength];
+    private boolean mReadyStart = false;
     Animator mAnimator;
     protected ViewCallback mViewCallback;
+    protected final int FRAME = 30;
+    protected int mReadCount = FRAME * 4;
 
     public AbstractRenderView(Context context, ViewCallback callback) {
         super(context);
@@ -38,7 +39,6 @@ abstract public class AbstractRenderView extends DrawView {
         }
 
         mAnimator = new Animator(this);
-        DeviceUtil.getInstance().setShowPoint(true);
     }
 
     protected int getTransX(int inputX) {
@@ -73,9 +73,18 @@ abstract public class AbstractRenderView extends DrawView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawImpl(canvas);
-        if (DeviceUtil.getInstance().getShowPoint())
-            drawPoint(canvas);
+        if (!mReadyStart) {
+            readyStartDraw(canvas);
+            mReadCount--;
+            if (mReadCount < 0) {
+                mReadyStart = true;
+                mViewCallback.onStartTrackerData();
+            }
+        } else {
+            drawImpl(canvas);
+            if (DeviceUtil.getInstance().getShowPoint())
+                drawPoint(canvas);
+        }
     }
 
     protected abstract void drawImpl(Canvas canvas);
@@ -85,8 +94,14 @@ abstract public class AbstractRenderView extends DrawView {
         canvas.drawCircle(mTrackerX, mTrackerY, 10, mPaint);
     }
 
-    private void readyStartDraw(Canvas canvas) {
-
+    protected void readyStartDraw(Canvas canvas) {
+        mPaint.setTextSize(150);
+        mPaint.setTextAlign(Paint.Align.CENTER);
+        mPaint.setColor(Color.parseColor("#000000"));
+        int x = DeviceUtil.getInstance().getDisplayWidth() / 2;
+        int y = DeviceUtil.getInstance().getDisplayHeight() / 2;
+        canvas.drawText("Ready?", x, y - 150, mPaint);
+        canvas.drawText(Integer.toString(mReadCount / FRAME + 1), x, y + 50, mPaint);
     }
 
     public interface ViewCallback {
@@ -97,5 +112,7 @@ abstract public class AbstractRenderView extends DrawView {
         void onStartTrackerData();
 
         void onStopTrackerData();
+
+        void onRecodeTargetPosition(int eyeX, int eyeY, int targetX, int targetY);
     }
 }

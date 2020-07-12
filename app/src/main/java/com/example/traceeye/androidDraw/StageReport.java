@@ -29,17 +29,17 @@ public class StageReport extends AbstractRenderView {
 
 
     protected void drawImpl(Canvas canvas) {
-        mPoint.x+=mGoSpeedX;
-        mPoint.y+=mGoSpeedY;
+        mPoint.x += mGoSpeedX;
+        mPoint.y += mGoSpeedY;
         if (mPoint.x < mBound.left) {
             mGoSpeedX = SPEED;
         }
-        if(mPoint.x > mBound.right) {
+        if (mPoint.x > mBound.right) {
             mGoSpeedX = SPEED * -1;
         }
-        if(mPoint.y < mBound.top)
+        if (mPoint.y < mBound.top)
             mGoSpeedY = SPEED;
-        if(mPoint.y > mBound.bottom)
+        if (mPoint.y > mBound.bottom)
             mGoSpeedY = SPEED * -1;
 
         mPaint.setColor(Color.parseColor("#2F9D27"));

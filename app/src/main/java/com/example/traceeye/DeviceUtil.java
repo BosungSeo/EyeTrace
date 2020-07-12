@@ -32,10 +32,20 @@ public class DeviceUtil {
         SharedPreferences prefs = mContext.getSharedPreferences(TAG, Context.MODE_PRIVATE);
         mAdjustPoint.x = prefs.getInt("x", 0);
         mAdjustPoint.y = prefs.getInt("y", 0);
+        mShowPoint = prefs.getBoolean("point", false);
         Log.d(TAG, "init - Cal X : " + mAdjustPoint.x + "     Y : " + mAdjustPoint.y);
     }
 
+    public void resetAdjustPoint() {
+        mAdjustPoint.x = 0;
+        mAdjustPoint.y = 0;
+    }
+
     public void setShowPoint(boolean b) {
+        SharedPreferences prefs = mContext.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("point", b);
+        editor.commit();
         mShowPoint = b;
     }
 

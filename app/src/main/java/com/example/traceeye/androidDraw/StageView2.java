@@ -130,9 +130,9 @@ public class StageView2 extends AbstractRenderView {
 
     private void drawDoubleTriangle(Canvas canvas, int x, int y) {
         int side = 200;
-        int height = 300;
+        int height = RECT_SIZE;
         y = y - height;
-
+        mViewCallback.onRecodeTargetPosition(mTrackerX, mTrackerY, x, y);
         mPath.reset();
         y = y - 70;
         Point point1_draw = new Point((int) x, (int) y);        // 왼
@@ -143,6 +143,7 @@ public class StageView2 extends AbstractRenderView {
         mPath.lineTo(point3_draw.x, point3_draw.y);
         mPath.lineTo(point1_draw.x, point1_draw.y);
         mPath.close();
+
         canvas.drawPath(mPath, mPaint);
         mPath.reset();
         y = y + 140;
