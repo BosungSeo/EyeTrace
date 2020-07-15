@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat;
 
 import android.provider.Settings;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
 import android.view.Menu;
@@ -224,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
         onStopTrackerData();
         switch (i) {
             case 1:
+
                 setContentView(mStageManager.getStage(STAGE4));
                 break;
             case 3:
@@ -267,5 +269,16 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
     public void onFinishRecode() {
         mDataManager.saveData();
         mDataManager.resetRecordData();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                Log.d("KeyUP Event", "뒤로 가기 키 down");
+                onHome();
+                return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

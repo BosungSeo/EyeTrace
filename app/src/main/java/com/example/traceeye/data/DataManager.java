@@ -13,11 +13,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 // firebase
 // id : eyetracker001@gmail.com
-// pass : sbskhj1098!
+// pass : eye1234!@#$
 public class DataManager {
     private static final String TAG = MainActivity.class.getName();
 
@@ -46,15 +52,21 @@ public class DataManager {
     }
 
     public void recordTracker(int eyeX, int eyeY, int targetX, int targetY) {
-        LogUtil.d("X:$(eyeX) Y:$(eyeY)");
         mDataList.add(new DataObject(eyeX, eyeY, targetX, targetY));
     }
 
     public void saveData() {
 
+        Map<String, Object> childUpdates = new HashMap<>();
         for (DataObject data : mDataList) {
-            databaseReference.setValue(data.toString());
+            // out.put(data.getJsonObject());
+            String key = databaseReference.child("posts").push().getKey();
+            childUpdates.put("/posts/" + key, data.toMap());
+            childUpdates.put("/user-posts/" + "Abc" + "/" + key, data.toMap());
         }
+        //databaseReference.setValue(out.toString());
+        // LogUtil.d(childUpdates.toString());
+        databaseReference.updateChildren(childUpdates);
     }
 
     public void resetRecordData() {

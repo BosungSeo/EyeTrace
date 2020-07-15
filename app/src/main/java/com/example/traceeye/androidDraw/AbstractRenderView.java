@@ -65,11 +65,9 @@ abstract public class AbstractRenderView extends DrawView {
     public void goHome() {
         mViewCallback.onHome();
     }
-
     public void finish() {
         mViewCallback.onFinishRecode();
     }
-
     public void goNext(int stage) {
         mViewCallback.onNext(stage);
     }
