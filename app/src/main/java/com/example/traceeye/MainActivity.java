@@ -9,17 +9,8 @@ import android.os.Bundle;
 import com.example.traceeye.Gaze.EyesTracker;
 import com.example.traceeye.androidDraw.AbstractRenderView;
 import com.example.traceeye.data.DataManager;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -32,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
 import static camp.visual.libgaze.Gaze.initGaze;
 import static com.example.traceeye.StageManager.ADJUST;
@@ -42,7 +34,7 @@ import static com.example.traceeye.StageManager.STAGE4;
 import static com.example.traceeye.StageManager.STAGE_REPORT;
 
 
-public class MainActivity extends AppCompatActivity implements EyesTracker.callback, AbstractRenderView.ViewCallback,
+public class MainActivity extends AppCompatActivity implements AbstractRenderView.ViewCallback,
         Button.OnClickListener {
 
     private static final String TAG = MainActivity.class.getName();
@@ -50,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
     private DataManager mDataManager;
     private StageManager mStageManager;
     private boolean mDoRecord;
+    private int mStage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
 
     @Override
     public void onClick(View view) {
+        mStage = view.getId();
         switch (view.getId()) {
             case R.id.view1Btn:
                 Log.d(TAG, "click animation");
@@ -95,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
                 Log.d(TAG, "click adjust");
                 DeviceUtil.getInstance().resetAdjustPoint();
                 setContentView(mStageManager.getStage(ADJUST));
+                mEyesTracker.startCalibration();
                 break;
             case R.id.checkBox:
                 CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
@@ -108,9 +103,7 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
         }
     }
 
-    @Override
-    public void onStartTracker() {
-    }
+
 
     private void startView() {
         setContentView(mStageManager.getStage(ADJUST));
@@ -167,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
 
     private void checkPermission(boolean isGranted) {
         if (isGranted) {
-            mEyesTracker = new EyesTracker(this, this);
+            mEyesTracker = new EyesTracker(this, mStageManager);
             mEyesTracker.initGaze();
         } else {
             // showToast("not granted permissions", true);
@@ -216,11 +209,6 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
     }
 
     @Override
-    public void onChangePosition(int x, int y) {
-        mStageManager.draw(x, y);
-    }
-
-    @Override
     public void onNext(int i) {
         onStopTrackerData();
         switch (i) {
@@ -236,6 +224,7 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
 
     @Override
     public void onHome() {
+        mStage = 0;
         onStopTrackerData();
         setContentView(R.layout.activity_main);
         ((Button) findViewById(R.id.viewReportBtn)).setOnClickListener(this);
@@ -275,10 +264,20 @@ public class MainActivity extends AppCompatActivity implements EyesTracker.callb
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
-                Log.d("KeyUP Event", "뒤로 가기 키 down");
+                if(mStage == 0) {
+                    break;
+                }
                 onHome();
                 return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+    public void showToast(final String msg, final boolean isShort) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MainActivity.this, msg, isShort ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

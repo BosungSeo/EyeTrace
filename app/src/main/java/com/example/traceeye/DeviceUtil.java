@@ -65,22 +65,22 @@ public class DeviceUtil {
     }
 
     public void setAdjustPoint(Point adjust) {
-        SharedPreferences prefs = mContext.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        /*SharedPreferences prefs = mContext.getSharedPreferences(TAG, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("x", adjust.x);
         editor.putInt("y", adjust.y);
         editor.commit();
         mAdjustPoint.x = adjust.x;
         mAdjustPoint.y = adjust.y;
-        Log.d(TAG, "setAdjustPoint - Cal X : " + mAdjustPoint.x + "     Y : " + mAdjustPoint.y);
+        Log.d(TAG, "setAdjustPoint - Cal X : " + mAdjustPoint.x + "     Y : " + mAdjustPoint.y);*/
     }
 
     public int getAdjustX() {
-        return mAdjustPoint.x;
+        return 0;//mAdjustPoint.x;
     }
 
     public int getAdjustY() {
-        return mAdjustPoint.y;
+        return 0;//mAdjustPoint.y;
     }
 
     public int getDisplayWidth() {

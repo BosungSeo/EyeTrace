@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.recyclerview.widget.AsyncListUtil;
 
+import com.example.traceeye.Gaze.EyesTracker;
 import com.example.traceeye.androidDraw.AbstractRenderView;
 import com.example.traceeye.androidDraw.AbstractRenderView.ViewCallback;
 import com.example.traceeye.androidDraw.AdjustView;
@@ -13,7 +14,7 @@ import com.example.traceeye.androidDraw.StageView2;
 import com.example.traceeye.androidDraw.StageView3;
 import com.example.traceeye.androidDraw.StageView4;
 
-public class StageManager {
+public class StageManager implements EyesTracker.Callback{
     public static final int STAGE1 = 0;
     public static final int STAGE2 = 1;
     public static final int STAGE3 = 2;
@@ -63,4 +64,28 @@ public class StageManager {
         return null;
     }
 
+    @Override
+    public void onChangePosition(int x, int y) {
+        draw(x,y);
+    }
+
+    @Override
+    public void onStartTracker() {
+
+    }
+
+    @Override
+    public void onCalibrationProgress(float progress) {
+        mCurrentView.onCalibrationProgress(progress);
+    }
+
+    @Override
+    public void onCalibrationNextPoint(float x, float y) {
+        mCurrentView.onCalibrationNextPoint(x,y);
+    }
+
+    @Override
+    public void onCalibrationFinished() {
+        mCurrentView.onCalibrationFinished();
+    }
 }

@@ -106,6 +106,18 @@ abstract public class AbstractRenderView extends DrawView {
         canvas.drawText(Integer.toString(mReadCount / FRAME + 1), x, y + 50, mPaint);
     }
 
+    public void onCalibrationProgress(float progress) {
+
+    }
+
+    public void onCalibrationNextPoint(float x, float y) {
+
+    }
+
+    public void onCalibrationFinished() {
+
+    }
+
     public interface ViewCallback {
         void onNext(int stage);
 
