@@ -25,6 +25,8 @@ public class AdjustView extends AbstractRenderView {
     private int mCircleCount;
     private boolean mFinish = false;
     private final int RED_CIRCLE_SIZE = 100;
+    private final int BLUE_CIRCLE_SIZE = 30;
+    private int mCalProgress = 0;
     private ArrayList<Point> mAdjustDataList = new ArrayList<>();
 
     public AdjustView(Context context, ViewCallback callback) {
@@ -54,12 +56,14 @@ public class AdjustView extends AbstractRenderView {
 
         mPaint.setColor(Color.parseColor("#FF0000"));
         canvas.drawCircle(mCalibrationPoint.x, mCalibrationPoint.y, 30, mPaint);
-        /*if (mCurrentFrame > 100) {
-            mAdjustDataList.add(new Point(mTrackerX, mTrackerY));
-        }
-        if (mCurrentFrame == CHECK_COUNT) {
-            calAdjust();
-        }*/
+
+        mPaint.setStrokeWidth(6f);
+        mPaint.setStyle(Paint.Style.STROKE);
+        RectF rect = new RectF();
+        mPaint.setColor(Color.parseColor("#0000FF"));
+        rect.set(mCalibrationPoint.x - BLUE_CIRCLE_SIZE, mCalibrationPoint.y - BLUE_CIRCLE_SIZE
+                , mCalibrationPoint.x + BLUE_CIRCLE_SIZE, mCalibrationPoint.y + BLUE_CIRCLE_SIZE);
+        canvas.drawArc(rect, 0, mCalProgress, false, mPaint);
     }
 
     protected void readyStartDraw(Canvas canvas) {
@@ -79,6 +83,7 @@ public class AdjustView extends AbstractRenderView {
         rect.set(mCP.x - RED_CIRCLE_SIZE, mCP.y - RED_CIRCLE_SIZE
                 , mCP.x + RED_CIRCLE_SIZE, mCP.y + RED_CIRCLE_SIZE);
         canvas.drawArc(rect, 0, (360 * (((mCircleCount - mReadCount) * 100) / mCircleCount)) / 100, false, mPaint);
+
     }
 
     private void drawSecondStep(Canvas canvas) {
@@ -96,11 +101,10 @@ public class AdjustView extends AbstractRenderView {
             mViewCallback.onHome();
     }
     public void onCalibrationProgress(float progress) {
-
+        mCalProgress = Math.round(progress*360);
     }
 
     public void onCalibrationNextPoint(float x, float y) {
-        Log.d(TAG,"onCalibrationNextPoint"+x+" "+y);
         mCalibrationPoint.x = Math.round(x);
         mCalibrationPoint.y = Math.round(y);
     }

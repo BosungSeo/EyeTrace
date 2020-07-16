@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
                 Log.d(TAG, "click adjust");
                 DeviceUtil.getInstance().resetAdjustPoint();
                 setContentView(mStageManager.getStage(ADJUST));
-                mEyesTracker.startCalibration();
+
                 break;
             case R.id.checkBox:
                 CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
@@ -239,7 +239,11 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
 
     @Override
     public void onStartTrackerData() {
-        mDoRecord = true;
+        if(mStage == R.id.viewCalBtn) {
+            mEyesTracker.startCalibration();
+        } else {
+            mDoRecord = true;
+        }
     }
 
     @Override
