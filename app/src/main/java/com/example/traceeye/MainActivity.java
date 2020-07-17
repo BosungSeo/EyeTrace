@@ -1,6 +1,7 @@
 package com.example.traceeye;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 
 import com.example.traceeye.Gaze.EyesTracker;
 import com.example.traceeye.androidDraw.AbstractRenderView;
+import com.example.traceeye.androidDraw.StageReport;
 import com.example.traceeye.data.DataManager;
 
 import androidx.annotation.NonNull;
@@ -17,12 +19,14 @@ import androidx.core.content.ContextCompat;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import static camp.visual.libgaze.Gaze.initGaze;
@@ -54,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
         } else {
             DeviceUtil.getInstance().setDisplay(this.getWindowManager().getDefaultDisplay());
         }
-        mDataManager = new DataManager(this);
+        mDataManager = DataManager.getInstance();
         mDoRecord = false;
         mStageManager = new StageManager(this, this);
 
@@ -83,6 +87,12 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
                 break;
             case R.id.viewReportBtn:
                 Log.d(TAG, "click animation");
+                /*LayoutInflater inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+                LinearLayout linearLayout = (LinearLayout) inflater.inflate( R.layout.activity_render, null );
+                // linearLayout.addView(mStageManager.getStage(STAGE_REPORT));*/
+                // setContentView(R.layout.activity_render);
+
+                // StageReport view1 = (StageReport)findViewById(R.id.view_point);
                 setContentView(mStageManager.getStage(STAGE_REPORT));
                 break;
             case R.id.viewCalBtn:
@@ -213,7 +223,6 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
         onStopTrackerData();
         switch (i) {
             case 1:
-
                 setContentView(mStageManager.getStage(STAGE4));
                 break;
             case 3:
@@ -254,6 +263,7 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
     @Override
     public void onRecodeTargetPosition(int eyeX, int eyeY, int targetX, int targetY) {
         if (mDoRecord) {
+            Log.d("ABC"," "+eyeX+" "+ eyeY+" "+ targetX+" "+targetY);
             mDataManager.recordTracker(eyeX, eyeY, targetX, targetY);
         }
     }
@@ -261,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
     @Override
     public void onFinishRecode() {
         mDataManager.saveData();
-        mDataManager.resetRecordData();
+        // mDataManager.resetRecordData();
     }
 
     @Override

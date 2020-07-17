@@ -16,7 +16,7 @@ abstract public class AbstractRenderView extends DrawView {
     protected int mYGuidLineLength = DeviceUtil.getInstance().getDisplayHeight() / 100;
     protected int[] mXGuideLine = new int[mXGuidLineLength];
     protected int[] mYGuideLine = new int[mYGuidLineLength];
-    private boolean mReadyStart = false;
+    protected boolean mReadyStart = false;
     Animator mAnimator;
     protected ViewCallback mViewCallback;
     protected final int FRAME = 30;

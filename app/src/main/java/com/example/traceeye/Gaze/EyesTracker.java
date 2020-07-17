@@ -140,7 +140,6 @@ public class EyesTracker {
             } else {
                 type = "UNKNOWN";
             }
-            Log.i(TAG, "check eyeMovement timestamp: " + timestamp + " (" + x + "x" + y + ") : " + type);
         }
     };
     private StatusCallback statusCallback = new StatusCallback() {

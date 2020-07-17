@@ -43,7 +43,6 @@ public class StageView4 extends AbstractRenderView {
         mGoSpeedY = mGoToPoint[direction].y - mPoint.y;
         mGoSpeedX = mGoSpeedX/SPEED;
         mGoSpeedY = mGoSpeedY/SPEED;
-        Log.d("ABC", "SpeedX"+mGoSpeedX+" SpeedY"+mGoSpeedY);
         return true;
     }
 

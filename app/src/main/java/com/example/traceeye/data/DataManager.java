@@ -28,11 +28,17 @@ public class DataManager {
     private static final String TAG = MainActivity.class.getName();
 
     ArrayList<DataObject> mDataList = new ArrayList<DataObject>();
+    private static DataManager INSTANCE = null;
     // private FirebaseStorage mDatabase;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
-
-    public DataManager(Context c) {
+    public static DataManager getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new DataManager();
+        }
+        return INSTANCE;
+    }
+    private DataManager() {
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -81,5 +87,11 @@ public class DataManager {
 
     public void writeFile() {
 
+    }
+    public ArrayList<DataObject> getDataList() {
+        return mDataList;
+    }
+    public boolean isData() {
+        return !mDataList.isEmpty();
     }
 }
