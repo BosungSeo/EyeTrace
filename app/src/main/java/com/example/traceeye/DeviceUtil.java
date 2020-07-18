@@ -14,6 +14,7 @@ public class DeviceUtil {
     private Context mContext;
     private Display mDisplay;
     private boolean mShowPoint = true;
+    private boolean mFivePoint = false;
     private int[] mStageValue = new int[4];
 
     private DeviceUtil() {
@@ -33,6 +34,7 @@ public class DeviceUtil {
         mAdjustPoint.x = prefs.getInt("x", 0);
         mAdjustPoint.y = prefs.getInt("y", 0);
         mShowPoint = prefs.getBoolean("point", false);
+        mFivePoint = prefs.getBoolean("cal_point", false);
         mStageValue[0] = prefs.getInt("stage1", 1);
         mStageValue[1] = prefs.getInt("stage2", 1);
         mStageValue[2] = prefs.getInt("stage3", 1);
@@ -55,6 +57,17 @@ public class DeviceUtil {
         editor.putBoolean("point", b);
         editor.commit();
         mShowPoint = b;
+    }
+    public boolean getFiveCalPoint() {
+        return mFivePoint;
+    }
+
+    public void setFiveCalPoint(boolean b) {
+        SharedPreferences prefs = mContext.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("cal_point", b);
+        editor.commit();
+        mFivePoint = b;
     }
     public int getStageValue(int index) {
         return mStageValue[index];

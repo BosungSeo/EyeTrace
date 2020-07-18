@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 
+import com.example.traceeye.DeviceUtil;
 import com.example.traceeye.MainActivity;
 
 import camp.visual.gazetracker.GazeTracker;
@@ -42,7 +43,7 @@ public class EyesTracker {
 
     public void initGaze() {
         GazeDevice gazeDevice = new GazeDevice();
-        gazeDevice.addDeviceInfo(Build.MODEL, -72f, -4f); // tab s5e
+        gazeDevice.addDeviceInfo(Build.MODEL, 0.0f, 0.0f); // tab s5e
         String licenseKey = "dev_nsxejtconuuwunblh6u6ahcepo3qj3tix528n4xk";
         GazeTracker.initGazeTracker(mContext.getApplicationContext(), gazeDevice, licenseKey, initializationCallback);
         backgroundThread.start();
@@ -119,7 +120,11 @@ public class EyesTracker {
     public boolean startCalibration() {
         boolean isSuccess = false;
         if (mGazeTracker != null) {
-            isSuccess = mGazeTracker.startCalibration(CalibrationModeType.FIVE_POINT);
+            if(DeviceUtil.getInstance().getFiveCalPoint() == true) {
+                isSuccess = mGazeTracker.startCalibration(CalibrationModeType.FIVE_POINT);
+            } else {
+                isSuccess = mGazeTracker.startCalibration(CalibrationModeType.ONE_POINT);
+            }
         }
         return isSuccess;
     }
@@ -147,7 +152,6 @@ public class EyesTracker {
         @Override
         public void onStarted() {
             // isTracking true
-            // 카메라 스트림이 시작될때 호출
             mContext.showToast("Start", false);
         }
 
@@ -160,7 +164,6 @@ public class EyesTracker {
                         mContext.showToast("ERROR_CAMERA_START ", false);
                         break;
                     case StatusErrorType.ERROR_CAMERA_INTERRUPT:
-                        // 카메라 포커스를 빼앗길때
                         mContext.showToast("ERROR_CAMERA_INTERRUPT ", false);
                         break;
                 }

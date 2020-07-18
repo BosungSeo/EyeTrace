@@ -23,19 +23,20 @@ public class StageReport extends AbstractRenderView {
     private final Point CENTER_POINT = new Point(DeviceUtil.getInstance().getDisplayWidth() / 2, DeviceUtil.getInstance().getDisplayHeight() / 2);
     private final int WIDTH = DeviceUtil.getInstance().getDisplayWidth();
     private final int HEIGHT = DeviceUtil.getInstance().getDisplayHeight();
-    private final int FIRST_SECTION = DeviceUtil.getInstance().getDisplayHeight()/11;
-    private final int SECOND_SECTION = FIRST_SECTION*4;
-    private final int THIRD_SECTION = FIRST_SECTION*7;
-    private final int LAST_SECTION = FIRST_SECTION*10;
-    private final int PADDING = DeviceUtil.getInstance().getDisplayWidth()/5;
+    private final int FIRST_SECTION = DeviceUtil.getInstance().getDisplayHeight() / 11;
+    private final int SECOND_SECTION = FIRST_SECTION * 4;
+    private final int THIRD_SECTION = FIRST_SECTION * 7;
+    private final int LAST_SECTION = FIRST_SECTION * 10;
+    private final int PADDING = DeviceUtil.getInstance().getDisplayWidth() / 5;
     private final int ZOOM = 5;
     private final int SHOW_SEC = 90;
-    private final int PADDING2 = PADDING+PADDING;
+    private final int PADDING2 = PADDING + PADDING;
 
     private ArrayList<DataObject> mDataList = null;
+
     public StageReport(Context context, ViewCallback callback) {
         super(context, callback);
-        if(DataManager.getInstance().isData())
+        if (DataManager.getInstance().isData())
             mDataList = DataManager.getInstance().getDataList();
         mPath = new Path();
         mPoint = new Point(CENTER_POINT.x, CENTER_POINT.y);
@@ -43,121 +44,125 @@ public class StageReport extends AbstractRenderView {
     }
 
     private void calEyeX() {
-        float onePoint = (float)(WIDTH-PADDING2) / (float)mDataList.size();
+        float onePoint = (float) (WIDTH - PADDING2) / (float) mDataList.size();
         mPath.reset();
-        mPath.moveTo((float) (PADDING), (float) (mDataList.get(0).eyeX/ZOOM+FIRST_SECTION));
-        for(int i=1;i<mDataList.size();i++) {
-            mPath.lineTo((float)(i*onePoint)+PADDING, (float) (mDataList.get(i).eyeX/ZOOM+ FIRST_SECTION));
-            Log.d("ABC", " "+mDataList.get(i).eyeX);
+        mPath.moveTo((float) (PADDING), (float) (mDataList.get(0).eyeX / ZOOM + FIRST_SECTION));
+        for (int i = 1; i < mDataList.size(); i++) {
+            mPath.lineTo((float) (i * onePoint) + PADDING, (float) (mDataList.get(i).eyeX / ZOOM + FIRST_SECTION));
+            Log.d("ABC", " " + mDataList.get(i).eyeX);
         }
     }
+
     private void calMoveX() {
-        float onePoint = (float)(WIDTH-PADDING2) / (float)mDataList.size();
+        float onePoint = (float) (WIDTH - PADDING2) / (float) mDataList.size();
         mPath.reset();
-        mPath.moveTo((float) (PADDING), (float) (mDataList.get(0).targetX/ZOOM+FIRST_SECTION));
-        for(int i=1;i<mDataList.size();i++) {
-            mPath.lineTo((float)(i*onePoint)+PADDING, (float) (mDataList.get(i).targetX/ZOOM+ FIRST_SECTION));
+        mPath.moveTo((float) (PADDING), (float) (mDataList.get(0).targetX / ZOOM + FIRST_SECTION));
+        for (int i = 1; i < mDataList.size(); i++) {
+            mPath.lineTo((float) (i * onePoint) + PADDING, (float) (mDataList.get(i).targetX / ZOOM + FIRST_SECTION));
         }
     }
+
     private void calEyeY() {
-        float onePoint = (float)(WIDTH-PADDING2) / (float)mDataList.size();
+        float onePoint = (float) (WIDTH - PADDING2) / (float) mDataList.size();
         mPath.reset();
-        mPath.moveTo((float) (PADDING), (float) ((mDataList.get(0).eyeY/ZOOM)+SECOND_SECTION));
-        for(int i=1;i<mDataList.size();i++) {
-            mPath.lineTo((float)(i*onePoint)+PADDING, (float) ((mDataList.get(i).eyeY/ZOOM)+SECOND_SECTION));
+        mPath.moveTo((float) (PADDING), (float) ((mDataList.get(0).eyeY / ZOOM) + SECOND_SECTION));
+        for (int i = 1; i < mDataList.size(); i++) {
+            mPath.lineTo((float) (i * onePoint) + PADDING, (float) ((mDataList.get(i).eyeY / ZOOM) + SECOND_SECTION));
         }
     }
+
     private void calMoveY() {
-        float onePoint = (float)(WIDTH-PADDING2) / (float)mDataList.size();
+        float onePoint = (float) (WIDTH - PADDING2) / (float) mDataList.size();
         mPath.reset();
-        mPath.moveTo((float) (PADDING), (float) ((mDataList.get(0).targetY/ZOOM)+SECOND_SECTION));
-        for(int i=1;i<mDataList.size();i++) {
-            mPath.lineTo((float)(i*onePoint)+PADDING, (float) ((mDataList.get(i).targetY/ZOOM)+SECOND_SECTION));
+        mPath.moveTo((float) (PADDING), (float) ((mDataList.get(0).targetY / ZOOM) + SECOND_SECTION));
+        for (int i = 1; i < mDataList.size(); i++) {
+            mPath.lineTo((float) (i * onePoint) + PADDING, (float) ((mDataList.get(i).targetY / ZOOM) + SECOND_SECTION));
         }
     }
+
     private void background(Canvas canvas) {
         int dataSize = 1;
-        float sectionSec =1;
+        float sectionSec = 1;
         int smallSection = 0;
         mPaint.setColor(Color.BLACK);
-        if(mDataList != null)
-        {
+        if (mDataList != null) {
             dataSize = mDataList.size();
-            sectionSec = dataSize/5;
+            sectionSec = dataSize / 5;
         }
-        smallSection = Math.round(((float)(WIDTH-PADDING2)/(float)dataSize)*sectionSec);
-        Log.d(TAG, "Width : "+(WIDTH-PADDING2)+" Size : "+dataSize+" SmallSection : "+smallSection);
+        smallSection = Math.round(((float) (WIDTH - PADDING2) / (float) dataSize) * sectionSec);
+        Log.d(TAG, "Width : " + (WIDTH - PADDING2) + " Size : " + dataSize + " SmallSection : " + smallSection);
         mPath.reset();
         mPaint.setStrokeWidth(4);
         mPath.moveTo((float) (PADDING), FIRST_SECTION);
-        mPath.lineTo((float) (PADDING), SECOND_SECTION-FIRST_SECTION);
+        mPath.lineTo((float) (PADDING), SECOND_SECTION - FIRST_SECTION);
         canvas.drawPath(mPath, mPaint);
 
         mPath.reset();
         mPaint.setStrokeWidth(2);
-        mPath.moveTo((float) (PADDING), SECOND_SECTION-FIRST_SECTION);
-        mPath.lineTo((float) (WIDTH-PADDING), SECOND_SECTION-FIRST_SECTION);
+        mPath.moveTo((float) (PADDING), SECOND_SECTION - FIRST_SECTION);
+        mPath.lineTo((float) (WIDTH - PADDING), SECOND_SECTION - FIRST_SECTION);
         canvas.drawPath(mPath, mPaint);
 
         mPath.reset();
         mPaint.setStrokeWidth(4);
         mPath.moveTo((float) (PADDING), SECOND_SECTION);
-        mPath.lineTo((float) (PADDING), THIRD_SECTION-FIRST_SECTION);
+        mPath.lineTo((float) (PADDING), THIRD_SECTION - FIRST_SECTION);
         canvas.drawPath(mPath, mPaint);
 
         mPath.reset();
         mPaint.setStrokeWidth(2);
-        mPath.moveTo((float) (PADDING), THIRD_SECTION-FIRST_SECTION);
-        mPath.lineTo((float) (WIDTH-PADDING), THIRD_SECTION-FIRST_SECTION);
+        mPath.moveTo((float) (PADDING), THIRD_SECTION - FIRST_SECTION);
+        mPath.lineTo((float) (WIDTH - PADDING), THIRD_SECTION - FIRST_SECTION);
         canvas.drawPath(mPath, mPaint);
 
         mPath.reset();
         mPaint.setStrokeWidth(4);
         mPath.moveTo((float) (PADDING), THIRD_SECTION);
-        mPath.lineTo((float) (PADDING), LAST_SECTION-FIRST_SECTION);
+        mPath.lineTo((float) (PADDING), LAST_SECTION - FIRST_SECTION);
         canvas.drawPath(mPath, mPaint);
 
         mPath.reset();
         mPaint.setStrokeWidth(2);
-        mPath.moveTo((float) (PADDING), LAST_SECTION-FIRST_SECTION);
-        mPath.lineTo((float) (WIDTH-PADDING), LAST_SECTION-FIRST_SECTION);
+        mPath.moveTo((float) (PADDING), LAST_SECTION - FIRST_SECTION);
+        mPath.lineTo((float) (WIDTH - PADDING), LAST_SECTION - FIRST_SECTION);
         canvas.drawPath(mPath, mPaint);
 
         mPaint.setStrokeWidth(1);
         mPaint.setColor(Color.GRAY);
-        for(int i =1;i<=(dataSize/sectionSec); i++) {
+        for (int i = 1; i <= (dataSize / sectionSec); i++) {
             String str = String.format("%.1fs", (i * sectionSec) / 30);
             mPath.reset();
-            mPath.moveTo((float) (PADDING+(i*smallSection)), FIRST_SECTION);
-            mPath.lineTo((float) (PADDING+(i*smallSection)), SECOND_SECTION-FIRST_SECTION);
+            mPath.moveTo((float) (PADDING + (i * smallSection)), FIRST_SECTION);
+            mPath.lineTo((float) (PADDING + (i * smallSection)), SECOND_SECTION - FIRST_SECTION);
             canvas.drawPath(mPath, mPaint);
             mPaint.setStyle(Paint.Style.FILL);
             mPaint.setTextAlign(CENTER);
             mPaint.setTextSize(30f);
-            canvas.drawText(str,(PADDING+(i*smallSection)),SECOND_SECTION-FIRST_SECTION+25,mPaint);
+            canvas.drawText(str, (PADDING + (i * smallSection)), SECOND_SECTION - FIRST_SECTION + 25, mPaint);
             mPaint.setStyle(Paint.Style.STROKE);
 
             mPath.reset();
-            mPath.moveTo((float) (PADDING+(i*smallSection)), SECOND_SECTION);
-            mPath.lineTo((float) (PADDING+(i*smallSection)), THIRD_SECTION-FIRST_SECTION);
+            mPath.moveTo((float) (PADDING + (i * smallSection)), SECOND_SECTION);
+            mPath.lineTo((float) (PADDING + (i * smallSection)), THIRD_SECTION - FIRST_SECTION);
             canvas.drawPath(mPath, mPaint);
             mPaint.setStyle(Paint.Style.FILL);
             mPaint.setTextAlign(CENTER);
             mPaint.setTextSize(30f);
-            canvas.drawText(str,(PADDING+(i*smallSection)),THIRD_SECTION-FIRST_SECTION+25,mPaint);
+            canvas.drawText(str, (PADDING + (i * smallSection)), THIRD_SECTION - FIRST_SECTION + 25, mPaint);
             mPaint.setStyle(Paint.Style.STROKE);
 
             mPath.reset();
-            mPath.moveTo((float) (PADDING+(i*smallSection)), THIRD_SECTION);
-            mPath.lineTo((float) (PADDING+(i*smallSection)), LAST_SECTION-FIRST_SECTION);
+            mPath.moveTo((float) (PADDING + (i * smallSection)), THIRD_SECTION);
+            mPath.lineTo((float) (PADDING + (i * smallSection)), LAST_SECTION - FIRST_SECTION);
             canvas.drawPath(mPath, mPaint);
             mPaint.setStyle(Paint.Style.FILL);
             mPaint.setTextAlign(CENTER);
             mPaint.setTextSize(30f);
-            canvas.drawText(str,(PADDING+(i*smallSection)),LAST_SECTION-FIRST_SECTION+25,mPaint);
+            canvas.drawText(str, (PADDING + (i * smallSection)), LAST_SECTION - FIRST_SECTION + 25, mPaint);
             mPaint.setStyle(Paint.Style.STROKE);
         }
     }
+
     protected void drawImpl(Canvas canvas) {
 
         mPaint.setStyle(Paint.Style.STROKE);
@@ -165,7 +170,7 @@ public class StageReport extends AbstractRenderView {
 
         background(canvas);
 
-        if(mDataList == null)
+        if (mDataList == null)
             return;
 
         //----------------------

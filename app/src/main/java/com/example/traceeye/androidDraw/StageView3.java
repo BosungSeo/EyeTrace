@@ -1,10 +1,8 @@
 package com.example.traceeye.androidDraw;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 
@@ -12,13 +10,12 @@ import com.example.traceeye.DeviceUtil;
 import com.example.traceeye.R;
 
 public class StageView3 extends AbstractRenderView {
+    private final int MARGIN = 100;
+    private final int CHANGE_FRAME = 15 * DeviceUtil.getInstance().getStageValue(2);
+    Bitmap mBitmap;
     private Point mPoint;
     private int mCount = 0;
-    private final int MARGIN = 100;
-    private final int CHANGE_FRAME = 15*DeviceUtil.getInstance().getStageValue(2);
     private Point mRandomRange;
-
-    Bitmap mBitmap;
 
     public StageView3(Context context, ViewCallback callback) {
         super(context, callback);

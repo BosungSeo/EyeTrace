@@ -5,15 +5,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.util.Log;
 
 import com.example.traceeye.DeviceUtil;
-import com.example.traceeye.LogUtil;
 
 public class StageView1 extends AbstractRenderView {
     private Point[] mObjects = new Point[10];
     private int mCount = 0;
-    private final int SPEED = 15*DeviceUtil.getInstance().getStageValue(0);
+    private final int SPEED = 15 * DeviceUtil.getInstance().getStageValue(0);
 
     public StageView1(Context context, ViewCallback callback) {
         super(context, callback);

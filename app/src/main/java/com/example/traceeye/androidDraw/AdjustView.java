@@ -1,20 +1,15 @@
 package com.example.traceeye.androidDraw;
 
-import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
-import android.util.Log;
 
 import com.example.traceeye.DeviceUtil;
-import com.example.traceeye.LogUtil;
 
 import java.util.ArrayList;
-
-import camp.visual.gazetracker.callback.CalibrationCallback;
 
 public class AdjustView extends AbstractRenderView {
     private final String TAG = AdjustView.class.getSimpleName();
@@ -32,7 +27,7 @@ public class AdjustView extends AbstractRenderView {
     public AdjustView(Context context, ViewCallback callback) {
         super(context, callback);
         mCP = new Point(DeviceUtil.getInstance().getDisplayWidth() / 2, DeviceUtil.getInstance().getDisplayHeight() / 2);
-        mCalibrationPoint = new Point(0,0);
+        mCalibrationPoint = new Point(0, 0);
         mCurrentFrame = 0;
         // init device adjust.
         DeviceUtil.getInstance().setAdjustPoint(new Point(0, 0));
@@ -100,8 +95,9 @@ public class AdjustView extends AbstractRenderView {
         if (mCurrentFrame > 30)
             mViewCallback.onHome();
     }
+
     public void onCalibrationProgress(float progress) {
-        mCalProgress = Math.round(progress*360);
+        mCalProgress = Math.round(progress * 360);
     }
 
     public void onCalibrationNextPoint(float x, float y) {

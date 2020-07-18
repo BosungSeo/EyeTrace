@@ -13,7 +13,8 @@ public class Setting implements SeekBar.OnSeekBarChangeListener, Button.OnClickL
     MainActivity mUIView;
     SeekBar[] mSeeker = new SeekBar[4];
     TextView[] mTextView = new TextView[4];
-    CheckBox checkBox;
+    CheckBox mCheckPoint;
+    CheckBox mCheckCalibration;
 
     public Setting(MainActivity view) {
         mUIView = view;
@@ -49,13 +50,22 @@ public class Setting implements SeekBar.OnSeekBarChangeListener, Button.OnClickL
         mSeeker[2].setProgress(DeviceUtil.getInstance().getStageValue(2));
 
         mSeeker[3] = (SeekBar) mUIView.findViewById(R.id.seekBar4);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mSeeker[3].setMin(1);
+        }
+        mSeeker[3].setMax(6);
         mTextView[3] = (TextView)mUIView.findViewById(R.id.txt4);
         mSeeker[3].setOnSeekBarChangeListener(this);
         mSeeker[3].setProgress(DeviceUtil.getInstance().getStageValue(3));
 
-        checkBox = (CheckBox) mUIView.findViewById(R.id.checkBox);
-        checkBox.setOnClickListener(this);
-        checkBox.setChecked(DeviceUtil.getInstance().getShowPoint());
+        mCheckPoint = (CheckBox) mUIView.findViewById(R.id.checkBox);
+        mCheckPoint.setOnClickListener(this);
+        mCheckPoint.setChecked(DeviceUtil.getInstance().getShowPoint());
+
+        mCheckCalibration = (CheckBox) mUIView.findViewById(R.id.checkBox_cal);
+        mCheckCalibration.setOnClickListener(this);
+        mCheckCalibration.setChecked(DeviceUtil.getInstance().getFiveCalPoint());
+
     }
 
     @Override
@@ -95,12 +105,21 @@ public class Setting implements SeekBar.OnSeekBarChangeListener, Button.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.checkBox:
-                if (checkBox.isChecked()) {
-                    Log.d(TAG, "click isChecked");
+                if (mCheckPoint.isChecked()) {
+                    Log.d(TAG, "mCheckPoint isChecked");
                     DeviceUtil.getInstance().setShowPoint(true);
                 } else {
-                    Log.d(TAG, "click isChecked false");
+                    Log.d(TAG, "mCheckPoint isChecked false");
                     DeviceUtil.getInstance().setShowPoint(false);
+                }
+                break;
+            case R.id.checkBox_cal:
+                if (mCheckCalibration.isChecked()) {
+                    Log.d(TAG, "mCheckCalibration isChecked");
+                    DeviceUtil.getInstance().setFiveCalPoint(true);
+                } else {
+                    Log.d(TAG, "mCheckCalibration isChecked false");
+                    DeviceUtil.getInstance().setFiveCalPoint(false);
                 }
                 break;
         }

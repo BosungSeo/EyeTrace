@@ -24,6 +24,7 @@ import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
         mDoRecord = false;
         mStageManager = new StageManager(this, this);
         mSetting = new Setting(this);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         doCheckPermission();
     }
 
@@ -252,7 +254,6 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
     @Override
     public void onRecodeTargetPosition(int eyeX, int eyeY, int targetX, int targetY) {
         if (mDoRecord) {
-            Log.d("ABC"," "+eyeX+" "+ eyeY+" "+ targetX+" "+targetY);
             mDataManager.recordTracker(eyeX, eyeY, targetX, targetY);
         }
     }
