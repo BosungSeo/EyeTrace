@@ -55,6 +55,7 @@ public class EyesTracker {
         //setCameraPreview(preview);
         this.mGazeTracker.setCallbacks(gazeCallback, calibrationCallback, eyeMovementCallback, statusCallback);
         //}
+        this.mGazeTracker.setTrackingFPS(30);
         this.mGazeTracker.startTracking();
         this.mCallback.onStartTracker();
         // this.gazeTracker.hideProgress();

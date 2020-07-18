@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
     private EyesTracker mEyesTracker;
     private DataManager mDataManager;
     private StageManager mStageManager;
+    private Setting mSetting;
     private boolean mDoRecord;
     private int mStage = 0;
 
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
         mDataManager = DataManager.getInstance();
         mDoRecord = false;
         mStageManager = new StageManager(this, this);
-
+        mSetting = new Setting(this);
         doCheckPermission();
     }
 
@@ -87,12 +88,6 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
                 break;
             case R.id.viewReportBtn:
                 Log.d(TAG, "click animation");
-                /*LayoutInflater inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-                LinearLayout linearLayout = (LinearLayout) inflater.inflate( R.layout.activity_render, null );
-                // linearLayout.addView(mStageManager.getStage(STAGE_REPORT));*/
-                // setContentView(R.layout.activity_render);
-
-                // StageReport view1 = (StageReport)findViewById(R.id.view_point);
                 setContentView(mStageManager.getStage(STAGE_REPORT));
                 break;
             case R.id.viewCalBtn:
@@ -101,15 +96,10 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
                 setContentView(mStageManager.getStage(ADJUST));
 
                 break;
-            case R.id.checkBox:
-                CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
-                if (checkBox.isChecked()) {
-                    Log.d(TAG, "click isChecked");
-                    DeviceUtil.getInstance().setShowPoint(true);
-                } else {
-                    Log.d(TAG, "click isChecked false");
-                    DeviceUtil.getInstance().setShowPoint(false);
-                }
+
+            case R.id.settingBtn:
+                mSetting.Start();
+                break;
         }
     }
 
@@ -242,8 +232,7 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
         ((Button) findViewById(R.id.view3Btn)).setOnClickListener(this);
         ((Button) findViewById(R.id.view4Btn)).setOnClickListener(this);
         ((Button) findViewById(R.id.viewCalBtn)).setOnClickListener(this);
-        ((CheckBox) findViewById(R.id.checkBox)).setOnClickListener(this);
-        ((CheckBox) findViewById(R.id.checkBox)).setChecked(DeviceUtil.getInstance().getShowPoint());
+        ((Button) findViewById(R.id.settingBtn)).setOnClickListener(this);
     }
 
     @Override

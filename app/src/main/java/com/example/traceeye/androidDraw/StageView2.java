@@ -9,6 +9,8 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
 
+import com.example.traceeye.DeviceUtil;
+
 public class StageView2 extends AbstractRenderView {
     class MoveFrame {
         public MoveFrame(float x, float y) {
@@ -22,7 +24,7 @@ public class StageView2 extends AbstractRenderView {
 
     private int mCount = 0;
     private final int RECT_SIZE = 300;
-    private final int FRAME = 60;
+    private final int FRAME = 30 * DeviceUtil.getInstance().getStageValue(1);
     private final int FRAME_SCENE = 2;
     Path mPath;
     private MoveFrame[] mRectTargetPoint = new MoveFrame[FRAME_SCENE + 1];

@@ -3,18 +3,18 @@ package com.example.traceeye;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Point;
-import android.os.Build;
 import android.util.Log;
 import android.view.Display;
 
 public class DeviceUtil {
-    private final String TAG = DeviceUtil.class.getName();
     private static DeviceUtil INSTANCE = null;
+    private final String TAG = DeviceUtil.class.getName();
     private Point mPoint;
     private Point mAdjustPoint;
     private Context mContext;
     private Display mDisplay;
     private boolean mShowPoint = true;
+    private int[] mStageValue = new int[4];
 
     private DeviceUtil() {
     }
@@ -33,12 +33,20 @@ public class DeviceUtil {
         mAdjustPoint.x = prefs.getInt("x", 0);
         mAdjustPoint.y = prefs.getInt("y", 0);
         mShowPoint = prefs.getBoolean("point", false);
+        mStageValue[0] = prefs.getInt("stage1", 1);
+        mStageValue[1] = prefs.getInt("stage2", 1);
+        mStageValue[2] = prefs.getInt("stage3", 1);
+        mStageValue[3] = prefs.getInt("stage4", 1);
         Log.d(TAG, "init - Cal X : " + mAdjustPoint.x + "     Y : " + mAdjustPoint.y);
     }
 
     public void resetAdjustPoint() {
         mAdjustPoint.x = 0;
         mAdjustPoint.y = 0;
+    }
+
+    public boolean getShowPoint() {
+        return mShowPoint;
     }
 
     public void setShowPoint(boolean b) {
@@ -48,10 +56,18 @@ public class DeviceUtil {
         editor.commit();
         mShowPoint = b;
     }
-
-    public boolean getShowPoint() {
-        return mShowPoint;
+    public int getStageValue(int index) {
+        return mStageValue[index];
     }
+    public void setStageValue(int index, int value) {
+        String key = "stage" + (index+1);
+        SharedPreferences prefs = mContext.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(key, value);
+        editor.commit();
+        mStageValue[index] = value;
+    }
+
 
     public void setDisplay(Display d) {
         mDisplay = d;

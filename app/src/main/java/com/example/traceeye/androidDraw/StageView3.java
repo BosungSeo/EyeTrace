@@ -15,7 +15,7 @@ public class StageView3 extends AbstractRenderView {
     private Point mPoint;
     private int mCount = 0;
     private final int MARGIN = 100;
-    private final int CHANGE_FRAME = 60;
+    private final int CHANGE_FRAME = 15*DeviceUtil.getInstance().getStageValue(2);
     private Point mRandomRange;
 
     Bitmap mBitmap;

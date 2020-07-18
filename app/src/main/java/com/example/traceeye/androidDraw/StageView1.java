@@ -13,7 +13,7 @@ import com.example.traceeye.LogUtil;
 public class StageView1 extends AbstractRenderView {
     private Point[] mObjects = new Point[10];
     private int mCount = 0;
-    private final int SPEED = 60;
+    private final int SPEED = 15*DeviceUtil.getInstance().getStageValue(0);
 
     public StageView1(Context context, ViewCallback callback) {
         super(context, callback);
