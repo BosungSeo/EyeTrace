@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="103dp"
         android:text="1번"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -21,7 +21,7 @@
         android:layout_height="103dp"
         android:layout_marginTop="20dp"
         android:text="2번"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
         android:layout_height="103dp"
         android:layout_marginTop="20dp"
         android:text="3번"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,43 +45,38 @@
         android:layout_height="103dp"
         android:layout_marginTop="8dp"
         android:text="4번"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintTop_toBottomOf="@+id/view3Btn"
         tools:layout_editor_absoluteX="0dp" />
 
     <Button
         android:id="@+id/viewReportBtn"
-        android:layout_width="match_parent"
-        android:layout_height="103dp"
+        android:layout_width="410dp"
+        android:layout_height="73dp"
         android:layout_marginTop="8dp"
         android:text="View Report"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintTop_toBottomOf="@+id/view4Btn"
         tools:layout_editor_absoluteX="0dp" />
 
     <Button
         android:id="@+id/viewCalBtn"
-        android:layout_width="match_parent"
-        android:layout_height="103dp"
+        android:layout_width="415dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="28dp"
         android:text="좌표 보정"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
 
-        app:layout_constraintStart_toStartOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintTop_toBottomOf="@+id/viewReportBtn"
-        app:layout_constraintVertical_bias="0.0" />
+        tools:layout_editor_absoluteX="0dp" />
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/settingBtn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="포인트표시"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:text="Setting"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewCalBtn" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
