@@ -1,7 +1,6 @@
 package com.example.traceeye;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -9,8 +8,8 @@ import android.os.Bundle;
 
 import com.example.traceeye.Gaze.EyesTracker;
 import com.example.traceeye.androidDraw.AbstractRenderView;
-import com.example.traceeye.androidDraw.StageReport;
 import com.example.traceeye.data.DataManager;
+import com.example.traceeye.data.ReportView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,15 +18,12 @@ import androidx.core.content.ContextCompat;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import static camp.visual.libgaze.Gaze.initGaze;
@@ -46,7 +42,8 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
     private EyesTracker mEyesTracker;
     private DataManager mDataManager;
     private StageManager mStageManager;
-    private Setting mSetting;
+    private SettingView mSettingView;
+    private ReportView mReportView;
     private boolean mDoRecord;
     private int mStage = 0;
 
@@ -63,7 +60,8 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
         mDataManager = DataManager.getInstance();
         mDoRecord = false;
         mStageManager = new StageManager(this, this);
-        mSetting = new Setting(this);
+        mSettingView = new SettingView(this);
+        mReportView = new ReportView(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         doCheckPermission();
     }
@@ -90,7 +88,8 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
                 break;
             case R.id.viewReportBtn:
                 Log.d(TAG, "click animation");
-                setContentView(mStageManager.getStage(STAGE_REPORT));
+                mReportView.init();
+                // setContentView(mStageManager.getStage(STAGE_REPORT));
                 break;
             case R.id.viewCalBtn:
                 Log.d(TAG, "click adjust");
@@ -100,11 +99,13 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
                 break;
 
             case R.id.settingBtn:
-                mSetting.Start();
+                mSettingView.Start();
                 break;
         }
     }
-
+    public void showReportView() {
+        setContentView(mStageManager.getStage(STAGE_REPORT));
+    }
 
 
     private void startView() {
@@ -260,7 +261,22 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
 
     @Override
     public void onFinishRecode() {
-        mDataManager.saveData();
+        String testName = "none";
+        switch(mStage){
+            case R.id.view1Btn:
+                testName = "view1";
+                break;
+            case R.id.view2Btn:
+                testName = "view2";
+                break;
+            case R.id.view3Btn:
+                testName = "view3";
+                break;
+            case R.id.view4Btn:
+                testName = "view4";
+                break;
+        }
+        mDataManager.saveData(testName);
         // mDataManager.resetRecordData();
     }
 

@@ -6,13 +6,16 @@ import android.graphics.Point;
 import android.util.Log;
 import android.view.Display;
 
+import java.util.UUID;
+
 public class DeviceUtil {
     private static DeviceUtil INSTANCE = null;
-    private final String TAG = DeviceUtil.class.getName();
+    private final String TAG = DeviceUtil.class.getSimpleName();
     private Point mPoint;
     private Point mAdjustPoint;
     private Context mContext;
     private Display mDisplay;
+    private String mUUID;
     private boolean mShowPoint = true;
     private boolean mFivePoint = false;
     private int[] mStageValue = new int[4];
@@ -30,16 +33,27 @@ public class DeviceUtil {
     public void init(Context c) {
         mContext = c;
         mAdjustPoint = new Point();
+
         SharedPreferences prefs = mContext.getSharedPreferences(TAG, Context.MODE_PRIVATE);
         mAdjustPoint.x = prefs.getInt("x", 0);
         mAdjustPoint.y = prefs.getInt("y", 0);
         mShowPoint = prefs.getBoolean("point", false);
         mFivePoint = prefs.getBoolean("cal_point", false);
+        mUUID = prefs.getString("uuid", "undefine");
+
         mStageValue[0] = prefs.getInt("stage1", 1);
         mStageValue[1] = prefs.getInt("stage2", 1);
         mStageValue[2] = prefs.getInt("stage3", 1);
         mStageValue[3] = prefs.getInt("stage4", 1);
-        Log.d(TAG, "init - Cal X : " + mAdjustPoint.x + "     Y : " + mAdjustPoint.y);
+        Log.d(TAG, "uuid : "+mUUID);
+        if(mUUID.equalsIgnoreCase("undefine")) {
+            mUUID = UUID.randomUUID().toString();
+            SharedPreferences.Editor editor = prefs
+
+                    .edit();
+            editor.putString("uuid", mUUID);
+            editor.commit();
+        }
     }
 
     public void resetAdjustPoint() {
@@ -50,7 +64,9 @@ public class DeviceUtil {
     public boolean getShowPoint() {
         return mShowPoint;
     }
-
+    public String getUUID() {
+        return mUUID;
+    }
     public void setShowPoint(boolean b) {
         SharedPreferences prefs = mContext.getSharedPreferences(TAG, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();

@@ -1,31 +1,65 @@
 package com.example.traceeye.data;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DataObject {
-    public int eyeX;
-    public int eyeY;
-    public int targetX;
-    public int targetY;
+    public ArrayList<Long> eyeX;
+    public ArrayList<Long> eyeY;
+    public ArrayList<Long> targetX;
+    public ArrayList<Long> targetY;
+    public String mTestName;
+    public long mTime;
+    private int mDataSize = 0;
 
-    public DataObject(int eyeX, int eyeY, int targetX, int targetY) {
-        this.eyeX = eyeX;
-        this.eyeY = eyeY;
-        this.targetX = targetX;
-        this.targetY = targetY;
+    public DataObject() {
+        mTestName = "unKnown";
+        eyeX = new ArrayList<>();
+        eyeY = new ArrayList<>();
+        targetX = new ArrayList<>();
+        targetY = new ArrayList<>();
+    }
+
+    public DataObject(long time, Map<String, Object> data) {
+        mTime = time;
+        mTestName = (String) data.get("TestName");
+        eyeX = (ArrayList<Long>) data.get("eyeX");
+        eyeY = (ArrayList<Long>) data.get("eyeY");
+        targetX = (ArrayList<Long>) data.get("targetX");
+        targetY = (ArrayList<Long>) data.get("targetY");
+        mDataSize = ((ArrayList<Long>) data.get("eyeX")).size();
+    }
+
+    public void setData(int eX, int eY, int tX, int tY) {
+        eyeX.add((long)eX);
+        eyeY.add((long)eY);
+        targetX.add((long)tX);
+        targetY.add((long)tY);
+        mDataSize++;
+    }
+
+    public int getSize() {
+        return mDataSize;
+    }
+
+    public void setTestName(String name) {
+        mTestName = name;
     }
 
     @Override
     public String toString() {
         return "DataObject{" +
-                "eyeX=" + eyeX +
-                ", eyeY=" + eyeY +
-                ", targetX=" + targetX +
-                ", targetY=" + targetY +
+                "TestName="+mTestName+
+                "eyeX=" + eyeX.toString() +
+                ", eyeY=" + eyeY.toString() +
+                ", targetX=" + targetX.toString() +
+                ", targetY=" + targetY.toString() +
                 '}';
     }
 
@@ -37,8 +71,10 @@ public class DataObject {
         obj.put("targetY", targetY);
         return obj;
     }
+
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
+        result.put("TestName", mTestName);
         result.put("eyeX", eyeX);
         result.put("eyeY", eyeY);
         result.put("targetX", targetX);
@@ -46,3 +82,4 @@ public class DataObject {
         return result;
     }
 }
+

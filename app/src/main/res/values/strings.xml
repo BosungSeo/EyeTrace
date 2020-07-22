@@ -9,4 +9,15 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="test_1_button">"Structured\nMovement Test"</string>
+    <string name="test_2_button">"Target\nConcentration Test"</string>
+    <string name="test_3_button">"Random\nMovement Test"</string>
+    <string name="test_4_button">"Saccades Test"</string>
+    <string name="view_reports_button">"View Reports"</string>
+    <string name="calibration_button">"Calibration"</string>
+    <string name="setting_button">"Settings"</string>
+    <string name="test_1_setting_text">"Structured Speed, 1 => 0.5sec"</string>
+    <string name="test_2_setting_text">"Target Speed, 1 => 1sec"</string>
+    <string name="test_3_setting_text">"Random Speed, 1 => 0.5sec"</string>
+    <string name="test_4_setting_text">"Saccades Move Range, 1 => 10dp"</string>
 </resources>

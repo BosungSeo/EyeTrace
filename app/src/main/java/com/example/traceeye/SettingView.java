@@ -8,15 +8,15 @@ import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-public class Setting implements SeekBar.OnSeekBarChangeListener, Button.OnClickListener {
-    private final String TAG = Setting.class.getSimpleName();
+public class SettingView implements SeekBar.OnSeekBarChangeListener, Button.OnClickListener {
+    private final String TAG = SettingView.class.getSimpleName();
     MainActivity mUIView;
     SeekBar[] mSeeker = new SeekBar[4];
     TextView[] mTextView = new TextView[4];
     CheckBox mCheckPoint;
     CheckBox mCheckCalibration;
 
-    public Setting(MainActivity view) {
+    public SettingView(MainActivity view) {
         mUIView = view;
     }
 

@@ -32,51 +32,51 @@ public class StageReport extends AbstractRenderView {
     private final int SHOW_SEC = 90;
     private final int PADDING2 = PADDING + PADDING;
 
-    private ArrayList<DataObject> mDataList = null;
+    private DataObject mDataList = null;
 
     public StageReport(Context context, ViewCallback callback) {
         super(context, callback);
         if (DataManager.getInstance().isData())
-            mDataList = DataManager.getInstance().getDataList();
+            mDataList = DataManager.getInstance().getCurrentDataList();
+        Log.d("StageReport", " "+mDataList.getSize());
         mPath = new Path();
         mPoint = new Point(CENTER_POINT.x, CENTER_POINT.y);
         mReadyStart = true;
     }
 
     private void calEyeX() {
-        float onePoint = (float) (WIDTH - PADDING2) / (float) mDataList.size();
+        float onePoint = (float) (WIDTH - PADDING2) / (float) mDataList.getSize();
         mPath.reset();
-        mPath.moveTo((float) (PADDING), (float) (mDataList.get(0).eyeX / ZOOM + FIRST_SECTION));
-        for (int i = 1; i < mDataList.size(); i++) {
-            mPath.lineTo((float) (i * onePoint) + PADDING, (float) (mDataList.get(i).eyeX / ZOOM + FIRST_SECTION));
-            Log.d("ABC", " " + mDataList.get(i).eyeX);
+        mPath.moveTo((float) (PADDING), (float) (mDataList.eyeX.get(0).intValue() / ZOOM + FIRST_SECTION));
+        for (int i = 1; i < mDataList.getSize(); i++) {
+            mPath.lineTo((float) (i * onePoint) + PADDING, (float) (mDataList.eyeX.get(i).intValue() / ZOOM + FIRST_SECTION));
         }
     }
 
     private void calMoveX() {
-        float onePoint = (float) (WIDTH - PADDING2) / (float) mDataList.size();
+        float onePoint = (float) (WIDTH - PADDING2) / (float) mDataList.getSize();
         mPath.reset();
-        mPath.moveTo((float) (PADDING), (float) (mDataList.get(0).targetX / ZOOM + FIRST_SECTION));
-        for (int i = 1; i < mDataList.size(); i++) {
-            mPath.lineTo((float) (i * onePoint) + PADDING, (float) (mDataList.get(i).targetX / ZOOM + FIRST_SECTION));
+        mPath.moveTo((float) (PADDING), (float) (mDataList.targetX.get(0).intValue() / ZOOM + FIRST_SECTION));
+        for (int i = 1; i < mDataList.getSize(); i++) {
+            mPath.lineTo((float) (i * onePoint) + PADDING, (float) (mDataList.targetX.get(i).intValue() / ZOOM + FIRST_SECTION));
         }
     }
 
     private void calEyeY() {
-        float onePoint = (float) (WIDTH - PADDING2) / (float) mDataList.size();
+        float onePoint = (float) (WIDTH - PADDING2) / (float) mDataList.getSize();
         mPath.reset();
-        mPath.moveTo((float) (PADDING), (float) ((mDataList.get(0).eyeY / ZOOM) + SECOND_SECTION));
-        for (int i = 1; i < mDataList.size(); i++) {
-            mPath.lineTo((float) (i * onePoint) + PADDING, (float) ((mDataList.get(i).eyeY / ZOOM) + SECOND_SECTION));
+        mPath.moveTo((float) (PADDING), (float) ((mDataList.eyeY.get(0).intValue() / ZOOM) + SECOND_SECTION));
+        for (int i = 1; i < mDataList.getSize(); i++) {
+            mPath.lineTo((float) (i * onePoint) + PADDING, (float) ((mDataList.eyeY.get(i).intValue() / ZOOM) + SECOND_SECTION));
         }
     }
 
     private void calMoveY() {
-        float onePoint = (float) (WIDTH - PADDING2) / (float) mDataList.size();
+        float onePoint = (float) (WIDTH - PADDING2) / (float) mDataList.getSize();
         mPath.reset();
-        mPath.moveTo((float) (PADDING), (float) ((mDataList.get(0).targetY / ZOOM) + SECOND_SECTION));
-        for (int i = 1; i < mDataList.size(); i++) {
-            mPath.lineTo((float) (i * onePoint) + PADDING, (float) ((mDataList.get(i).targetY / ZOOM) + SECOND_SECTION));
+        mPath.moveTo((float) (PADDING), (float) ((mDataList.targetY.get(0).intValue() / ZOOM) + SECOND_SECTION));
+        for (int i = 1; i < mDataList.getSize(); i++) {
+            mPath.lineTo((float) (i * onePoint) + PADDING, (float) ((mDataList.targetY.get(i).intValue() / ZOOM) + SECOND_SECTION));
         }
     }
 
@@ -86,11 +86,10 @@ public class StageReport extends AbstractRenderView {
         int smallSection = 0;
         mPaint.setColor(Color.BLACK);
         if (mDataList != null) {
-            dataSize = mDataList.size();
+            dataSize = mDataList.getSize();
             sectionSec = dataSize / 5;
         }
         smallSection = Math.round(((float) (WIDTH - PADDING2) / (float) dataSize) * sectionSec);
-        Log.d(TAG, "Width : " + (WIDTH - PADDING2) + " Size : " + dataSize + " SmallSection : " + smallSection);
         mPath.reset();
         mPaint.setStrokeWidth(4);
         mPath.moveTo((float) (PADDING), FIRST_SECTION);
