@@ -11,8 +11,8 @@ import android.widget.TextView;
 public class SettingView implements SeekBar.OnSeekBarChangeListener, Button.OnClickListener {
     private final String TAG = SettingView.class.getSimpleName();
     MainActivity mUIView;
-    SeekBar[] mSeeker = new SeekBar[4];
-    TextView[] mTextView = new TextView[4];
+    SeekBar[] mSeeker = new SeekBar[5];
+    TextView[] mTextView = new TextView[5];
     CheckBox mCheckPoint;
     CheckBox mCheckCalibration;
 
@@ -21,7 +21,20 @@ public class SettingView implements SeekBar.OnSeekBarChangeListener, Button.OnCl
     }
 
     public void Start() {
-        mUIView.setContentView(R.layout.activity_setting);
+        if(DeviceUtil.getInstance().getOrient()) {
+            mUIView.setContentView(R.layout.activity_setting);
+        } else {
+            mUIView.setContentView(R.layout.activity_setting_land);
+        }
+        mSeeker[4] = (SeekBar) mUIView.findViewById(R.id.seekBar0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mSeeker[4].setMin(1);
+        }
+        mSeeker[4].setMax(10);
+        mTextView[4] = (TextView)mUIView.findViewById(R.id.txt0);
+        mSeeker[4].setOnSeekBarChangeListener(this);
+        mSeeker[4].setProgress(DeviceUtil.getInstance().getStageValue(4));
+
         mSeeker[0] = (SeekBar) mUIView.findViewById(R.id.seekBar1);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mSeeker[0].setMin(1);
@@ -87,6 +100,10 @@ public class SettingView implements SeekBar.OnSeekBarChangeListener, Button.OnCl
             case R.id.seekBar4:
                 mTextView[3].setText(Integer.toString(i));
                 DeviceUtil.getInstance().setStageValue(3,i);
+                break;
+            case R.id.seekBar0:
+                mTextView[4].setText(Integer.toString(i));
+                DeviceUtil.getInstance().setStageValue(4,i);
                 break;
         }
     }

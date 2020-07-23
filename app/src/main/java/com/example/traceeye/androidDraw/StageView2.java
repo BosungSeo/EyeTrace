@@ -73,7 +73,17 @@ public class StageView2 extends AbstractRenderView {
         move[1] = new MoveFrame((target[1].x - target[2].x) / FRAME,
                 (target[1].y - target[2].y) / FRAME);
     }
-
+    protected void readyStartDrawImpl(Canvas canvas) {
+        int x = DeviceUtil.getInstance().getDisplayWidth() / 2;
+        int y = DeviceUtil.getInstance().getDisplayHeight() / 2;
+        mPaint.setColor(Color.BLACK);
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setTextSize(100);
+        mPaint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText("Follow this target image as it", x, y - 600, mPaint);
+        canvas.drawText("moves around the screen", x, y - 470, mPaint);
+        drawDoubleTriangle(canvas, x, y + 700);
+    }
     @Override
     protected void drawImpl(Canvas canvas) {
         mCount++;
@@ -131,6 +141,9 @@ public class StageView2 extends AbstractRenderView {
     }
 
     private void drawDoubleTriangle(Canvas canvas, int x, int y) {
+        mPaint.setColor(Color.BLACK);
+        mPaint.setStrokeWidth(10);
+        mPaint.setStyle(Paint.Style.STROKE);
         int side = 200;
         int height = RECT_SIZE;
         y = y - height;

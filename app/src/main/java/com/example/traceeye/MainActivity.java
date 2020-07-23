@@ -5,28 +5,25 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.traceeye.Gaze.EyesTracker;
 import com.example.traceeye.androidDraw.AbstractRenderView;
 import com.example.traceeye.data.DataManager;
 import com.example.traceeye.data.ReportView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
-import android.provider.Settings;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.Toast;
-
-import static camp.visual.libgaze.Gaze.initGaze;
 import static com.example.traceeye.StageManager.ADJUST;
 import static com.example.traceeye.StageManager.STAGE1;
 import static com.example.traceeye.StageManager.STAGE2;
@@ -39,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
         Button.OnClickListener {
 
     private static final String TAG = MainActivity.class.getName();
+    private static final String[] PERMISSIONS = new String[]
+            {Manifest.permission.CAMERA};
+    private static final int REQ_PERMISSION = 1000;
     private EyesTracker mEyesTracker;
     private DataManager mDataManager;
     private StageManager mStageManager;
@@ -51,12 +51,12 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DeviceUtil.getInstance().init(this);
-        onHome();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             DeviceUtil.getInstance().setDisplay(this.getDisplay());
         } else {
             DeviceUtil.getInstance().setDisplay(this.getWindowManager().getDefaultDisplay());
         }
+        onHome();
         mDataManager = DataManager.getInstance();
         mDoRecord = false;
         mStageManager = new StageManager(this, this);
@@ -103,10 +103,10 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
                 break;
         }
     }
+
     public void showReportView() {
         setContentView(mStageManager.getStage(STAGE_REPORT));
     }
-
 
     private void startView() {
         setContentView(mStageManager.getStage(ADJUST));
@@ -122,12 +122,10 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         DeviceUtil.getInstance().changeOrient();
+        if (mStage == 0)
+            onHome();
         mStageManager.onOrientationChange();
     }
-
-    private static final String[] PERMISSIONS = new String[]
-            {Manifest.permission.CAMERA};
-    private static final int REQ_PERMISSION = 1000;
 
     private void doCheckPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -228,7 +226,11 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
     public void onHome() {
         mStage = 0;
         onStopTrackerData();
-        setContentView(R.layout.activity_main);
+        if (DeviceUtil.getInstance().getOrient()) {
+            setContentView(R.layout.activity_main);
+        } else {
+            setContentView(R.layout.activity_main_land);
+        }
         ((Button) findViewById(R.id.viewReportBtn)).setOnClickListener(this);
         ((Button) findViewById(R.id.view1Btn)).setOnClickListener(this);
         ((Button) findViewById(R.id.view2Btn)).setOnClickListener(this);
@@ -240,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
 
     @Override
     public void onStartTrackerData() {
-        if(mStage == R.id.viewCalBtn) {
+        if (mStage == R.id.viewCalBtn) {
             mEyesTracker.startCalibration();
         } else {
             mDoRecord = true;
@@ -262,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
     @Override
     public void onFinishRecode() {
         String testName = "none";
-        switch(mStage){
+        switch (mStage) {
             case R.id.view1Btn:
                 testName = "view1";
                 break;
@@ -284,7 +286,7 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
-                if(mStage == 0) {
+                if (mStage == 0) {
                     break;
                 }
                 onHome();
@@ -292,6 +294,7 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
         }
         return super.onKeyDown(keyCode, event);
     }
+
     public void showToast(final String msg, final boolean isShort) {
         runOnUiThread(new Runnable() {
             @Override

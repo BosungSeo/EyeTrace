@@ -3,6 +3,8 @@ package com.example.traceeye.androidDraw;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 
@@ -31,7 +33,16 @@ public class StageView3 extends AbstractRenderView {
         mPoint.x = (int) (Math.random() * mRandomRange.x) + (MARGIN / 2);
         mPoint.y = (int) (Math.random() * mRandomRange.y) + (MARGIN / 2);
     }
-
+    protected void readyStartDrawImpl(Canvas canvas) {
+        int x = DeviceUtil.getInstance().getDisplayWidth() / 2;
+        int y = DeviceUtil.getInstance().getDisplayHeight() / 2;
+        mPaint.setColor(Color.BLACK);
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setTextSize(100);
+        mPaint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText("Follow the image as it blinks", x, y - 600, mPaint);
+        canvas.drawText("around the screen", x, y - 470, mPaint);
+    }
     protected void drawImpl(Canvas canvas) {
         mCount++;
         if (mCount % CHANGE_FRAME == 0) {

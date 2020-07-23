@@ -18,7 +18,7 @@ public class DeviceUtil {
     private String mUUID;
     private boolean mShowPoint = true;
     private boolean mFivePoint = false;
-    private int[] mStageValue = new int[4];
+    private int[] mStageValue = new int[5];
 
     private DeviceUtil() {
     }
@@ -45,6 +45,7 @@ public class DeviceUtil {
         mStageValue[1] = prefs.getInt("stage2", 1);
         mStageValue[2] = prefs.getInt("stage3", 1);
         mStageValue[3] = prefs.getInt("stage4", 1);
+        mStageValue[4] = prefs.getInt("stage5", 1);
         Log.d(TAG, "uuid : "+mUUID);
         if(mUUID.equalsIgnoreCase("undefine")) {
             mUUID = UUID.randomUUID().toString();
@@ -107,6 +108,11 @@ public class DeviceUtil {
     public void changeOrient() {
         mDisplay.getRealSize(mPoint);
         Log.d(TAG, "Width=" + mPoint.x + " Height=" + mPoint.y);
+    }
+    public boolean getOrient() {
+        if(mPoint.y>mPoint.x)
+            return true;
+        else return false;
     }
 
     public void setAdjustPoint(Point adjust) {

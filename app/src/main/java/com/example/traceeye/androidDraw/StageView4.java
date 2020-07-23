@@ -109,7 +109,16 @@ public class StageView4 extends AbstractRenderView {
             mFrameCount++;
         }
     }
-
+    protected void readyStartDrawImpl(Canvas canvas) {
+        int x = DeviceUtil.getInstance().getDisplayWidth() / 2;
+        int y = DeviceUtil.getInstance().getDisplayHeight() / 2;
+        mPaint.setColor(Color.BLACK);
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setTextSize(100);
+        mPaint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText("Follow the dot as it moves", x, y - 600, mPaint);
+        canvas.drawText("around the screen", x, y - 470, mPaint);
+    }
     protected void drawImpl(Canvas canvas) {
         switch (mFrameCount) {
             case 0:
@@ -154,7 +163,7 @@ public class StageView4 extends AbstractRenderView {
         mPoint.y = mPoint.y + directionY;
         mPaint.setColor(Color.BLUE);
         mPaint.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(mPoint.x, mPoint.y, 80, mPaint);
+        canvas.drawCircle(mPoint.x, mPoint.y, 55, mPaint);
         mViewCallback.onRecodeTargetPosition(mTrackerX, mTrackerY, mPoint.x, mPoint.y);
     }
 }

@@ -99,15 +99,17 @@ abstract public class AbstractRenderView extends DrawView {
     }
 
     protected void readyStartDraw(Canvas canvas) {
+        mPaint.setColor(Color.BLACK);
+        mPaint.setStyle(Paint.Style.FILL);
         mPaint.setTextSize(150);
         mPaint.setTextAlign(Paint.Align.CENTER);
-        mPaint.setColor(Color.parseColor("#000000"));
         int x = DeviceUtil.getInstance().getDisplayWidth() / 2;
         int y = DeviceUtil.getInstance().getDisplayHeight() / 2;
-        canvas.drawText("Ready?", x, y - 150, mPaint);
-        canvas.drawText(Integer.toString(mReadCount / FRAME + 1), x, y + 50, mPaint);
+        canvas.drawText("Ready?", x, y - 100, mPaint);
+        canvas.drawText(Integer.toString(mReadCount / FRAME + 1), x, y + 100, mPaint);
+        readyStartDrawImpl(canvas);
     }
-
+    protected void readyStartDrawImpl(Canvas canvas) {}
     public void onCalibrationProgress(float progress) {
 
     }
