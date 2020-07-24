@@ -53,6 +53,9 @@ public class DataObject {
     public void setTestName(String name) {
         mTestName = name;
     }
+    public String getTestName() {
+        return mTestName;
+    }
     public void setFrameCount(int c) { mFrameCount = c;}
     @Override
     public String toString() {

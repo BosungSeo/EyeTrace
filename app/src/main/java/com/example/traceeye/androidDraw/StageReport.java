@@ -163,7 +163,23 @@ public class StageReport extends AbstractRenderView {
     }
 
     protected void drawImpl(Canvas canvas) {
+        canvas.save();
+        mPaint.setTextSize(50);
+        mPaint.setTextAlign(Paint.Align.CENTER);
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setColor(Color.parseColor("#000000"));
+        canvas.drawText(mDataList.getTestName(), WIDTH/2, 100, mPaint);
 
+        mPaint.setTextSize(50);
+        canvas.translate(0, getHeight());
+        canvas.rotate(-90);
+        mPaint.setTextAlign(Paint.Align.LEFT);
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setColor(Color.parseColor("#000000"));
+        canvas.drawText("Eye X Position", THIRD_SECTION, PADDING-20, mPaint);
+        canvas.drawText("Eye Y Position", SECOND_SECTION, PADDING-20, mPaint);
+
+        canvas.restore();
         mPaint.setStyle(Paint.Style.STROKE);
         //----------------------
 
