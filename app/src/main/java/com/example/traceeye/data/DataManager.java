@@ -22,7 +22,7 @@ import java.util.Map;
 public class DataManager {
     private static final String TAG = DataManager.class.getSimpleName();
     private static DataManager INSTANCE = null;
-    DataObject mRecordDataObject = new DataObject();
+    DataObject mRecordDataObject;
     DataObject mCurrentDataObject;
     ArrayList<ListData> mOutputList;
     private String mUUID;
@@ -53,14 +53,17 @@ public class DataManager {
         }
         return INSTANCE;
     }
-
+    public void initRecord() {
+        mRecordDataObject = new DataObject();
+    }
     public void recordTracker(int eyeX, int eyeY, int targetX, int targetY) {
         mRecordDataObject.setData(eyeX, eyeY, targetX, targetY);
     }
 
-    public void saveData(String testName) {
+    public void saveData(String testName, int frame) {
         Log.d(TAG, "saveData : " + testName);
         mRecordDataObject.setTestName(testName);
+        mRecordDataObject.setFrameCount(frame);
         long now = System.currentTimeMillis();
         Map<String, Object> childUpdates = new HashMap<>();
         // out.put(data.getJsonObject());
@@ -71,6 +74,7 @@ public class DataManager {
         childUpdates.put("/user-posts/" + mUUID + "/" + now, mRecordDataObject.toMap());
         childUpdates.put("/user-times/" + mUUID + "/" + now, now);
         databaseReference.updateChildren(childUpdates);
+        mRecordDataObject = null;
     }
 
     public void setItemList(ArrayList<ListData> outputList) {
@@ -83,7 +87,7 @@ public class DataManager {
     public void loadData() {
         for (int i = 0; i < mItemTimeTable.length; i++) {
             Query ref = firebaseDatabase.getReference("/user-posts/" + mUUID + "/" + mItemTimeTable[i]);
-            ref.addListenerForSingleValueEvent(new CustomValueEventListener(mItemTimeTable[i]));
+            ref.addValueEventListener(new CustomValueEventListener(mItemTimeTable[i]));
         }
     }
     class CustomValueEventListener implements ValueEventListener {
@@ -94,7 +98,6 @@ public class DataManager {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
             DataObject a = new DataObject(mTime, (Map<String, Object>) snapshot.getValue());
-            Log.d(TAG, a.toString());
             mCallback.databaseResult(a);
         }
 
@@ -104,7 +107,7 @@ public class DataManager {
         }
     }
     public void loadDataTime() {
-        Query ref = firebaseDatabase.getReference("/user-times/" + mUUID).limitToLast(3).orderByPriority();
+        Query ref = firebaseDatabase.getReference("/user-times/" + mUUID).limitToLast(50).orderByPriority();
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -123,17 +126,6 @@ public class DataManager {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-    }
-
-    public void resetRecordData() {
-        // mDataList.clear();
-    }
-
-    public void logAllData() {
-    }
-
-    public void writeFile() {
-
     }
 
     public DataObject getCurrentDataList() {

@@ -16,7 +16,6 @@ public class StageView3 extends AbstractRenderView {
     private final int CHANGE_FRAME = 15 * DeviceUtil.getInstance().getStageValue(2);
     Bitmap mBitmap;
     private Point mPoint;
-    private int mCount = 0;
     private Point mRandomRange;
 
     public StageView3(Context context, ViewCallback callback) {
@@ -44,14 +43,14 @@ public class StageView3 extends AbstractRenderView {
         canvas.drawText("around the screen", x, y - 470, mPaint);
     }
     protected void drawImpl(Canvas canvas) {
-        mCount++;
-        if (mCount % CHANGE_FRAME == 0) {
+        mFrameCount++;
+        if (mFrameCount % CHANGE_FRAME == 0) {
             randomGenerator();
         }
 
         canvas.drawBitmap(mBitmap, mPoint.x, mPoint.y, mPaint);
         mViewCallback.onRecodeTargetPosition(mTrackerX, mTrackerY, mPoint.x, mPoint.y);
-        if (mCount > CHANGE_FRAME * 10) {
+        if (mFrameCount > CHANGE_FRAME * 10) {
             finish();
             goHome();
         }

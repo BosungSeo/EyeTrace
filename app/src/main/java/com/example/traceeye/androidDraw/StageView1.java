@@ -10,7 +10,6 @@ import com.example.traceeye.DeviceUtil;
 
 public class StageView1 extends AbstractRenderView {
     private Point[] mObjects = new Point[10];
-    private int mCount = 0;
     private final int CIRCLE_SIZE = 15 * DeviceUtil.getInstance().getStageValue(4);
     private final int LINE_SIZE = 5* DeviceUtil.getInstance().getStageValue(4);
     private final int SPEED = 15 * DeviceUtil.getInstance().getStageValue(0);
@@ -71,8 +70,8 @@ public class StageView1 extends AbstractRenderView {
     }
     @Override
     protected void drawImpl(Canvas canvas) {
-        mCount++;
-        if (mCount >= SPEED * 10) {
+        mFrameCount++;
+        if (mFrameCount >= SPEED * 10) {
             finish();
             goHome();
             return;
@@ -94,9 +93,9 @@ public class StageView1 extends AbstractRenderView {
 
         mPaint.setColor(Color.BLUE);
         mPaint.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(mObjects[mCount / SPEED].x, mObjects[mCount / SPEED].y, CIRCLE_SIZE, mPaint);
+        canvas.drawCircle(mObjects[mFrameCount / SPEED].x, mObjects[mFrameCount / SPEED].y, CIRCLE_SIZE, mPaint);
 
-        mViewCallback.onRecodeTargetPosition(mTrackerX, mTrackerY, mObjects[mCount / SPEED].x, mObjects[mCount / SPEED].y);
+        mViewCallback.onRecodeTargetPosition(mTrackerX, mTrackerY, mObjects[mFrameCount / SPEED].x, mObjects[mFrameCount / SPEED].y);
     }
 
     private void onDrawGuideLine(Canvas canvas) {

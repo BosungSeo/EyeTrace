@@ -10,6 +10,7 @@ import com.example.traceeye.DeviceUtil;
 
 abstract public class AbstractRenderView extends DrawView {
     private final String TAG = AbstractRenderView.class.getSimpleName();
+    protected int mFrameCount;
     protected int mTrackerX;
     protected int mTrackerY;
     protected int mXGuidLineLength = DeviceUtil.getInstance().getDisplayWidth() / 100;
@@ -24,6 +25,7 @@ abstract public class AbstractRenderView extends DrawView {
 
     public AbstractRenderView(Context context, ViewCallback callback) {
         super(context);
+        mFrameCount = 0;
         mViewCallback = callback;
         mTrackerX = 0;
         mTrackerY = 0;
@@ -67,7 +69,7 @@ abstract public class AbstractRenderView extends DrawView {
     }
 
     public void finish() {
-        mViewCallback.onFinishRecode();
+        mViewCallback.onFinishRecode(mFrameCount);
     }
 
     public void goNext(int stage) {
@@ -133,6 +135,6 @@ abstract public class AbstractRenderView extends DrawView {
 
         void onRecodeTargetPosition(int eyeX, int eyeY, int targetX, int targetY);
 
-        void onFinishRecode();
+        void onFinishRecode(int frame);
     }
 }

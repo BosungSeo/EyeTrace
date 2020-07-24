@@ -14,7 +14,7 @@ public class StageView4 extends AbstractRenderView {
     private final int SCENE = 16;
     private final int LAST_FRAME = SPEED * SCENE;
     private Point mPoint;
-    private int mFrameCount = 0;
+
     private Point mCenter = new Point(DeviceUtil.getInstance().getDisplayWidth() / 2, DeviceUtil.getInstance().getDisplayHeight() / 2);
     private Point mLeft = new Point(PADDING, mCenter.y);
     private Point mRight = new Point(DeviceUtil.getInstance().getDisplayWidth() - PADDING, mCenter.y);

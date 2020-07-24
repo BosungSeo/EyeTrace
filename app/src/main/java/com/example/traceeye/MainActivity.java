@@ -245,6 +245,7 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
         if (mStage == R.id.viewCalBtn) {
             mEyesTracker.startCalibration();
         } else {
+            mDataManager.initRecord();
             mDoRecord = true;
         }
     }
@@ -262,23 +263,23 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
     }
 
     @Override
-    public void onFinishRecode() {
+    public void onFinishRecode(int frame) {
         String testName = "none";
         switch (mStage) {
             case R.id.view1Btn:
-                testName = "view1";
+                testName = getResources().getString(R.string.test_1_report);
                 break;
             case R.id.view2Btn:
-                testName = "view2";
+                testName = getResources().getString(R.string.test_2_report);
                 break;
             case R.id.view3Btn:
-                testName = "view3";
+                testName = getResources().getString(R.string.test_3_report);
                 break;
             case R.id.view4Btn:
-                testName = "view4";
+                testName = getResources().getString(R.string.test_4_report);
                 break;
         }
-        mDataManager.saveData(testName);
+        mDataManager.saveData(testName, frame);
         // mDataManager.resetRecordData();
     }
 

@@ -15,6 +15,7 @@ public class DataObject {
     public ArrayList<Long> targetX;
     public ArrayList<Long> targetY;
     public String mTestName;
+    public int mFrameCount;
     public long mTime;
     private int mDataSize = 0;
 
@@ -28,7 +29,8 @@ public class DataObject {
 
     public DataObject(long time, Map<String, Object> data) {
         mTime = time;
-        mTestName = (String) data.get("TestName");
+        mTestName = (String) data.get("testName");
+
         eyeX = (ArrayList<Long>) data.get("eyeX");
         eyeY = (ArrayList<Long>) data.get("eyeY");
         targetX = (ArrayList<Long>) data.get("targetX");
@@ -51,11 +53,11 @@ public class DataObject {
     public void setTestName(String name) {
         mTestName = name;
     }
-
+    public void setFrameCount(int c) { mFrameCount = c;}
     @Override
     public String toString() {
         return "DataObject{" +
-                "TestName="+mTestName+
+                "testName="+mTestName+
                 "eyeX=" + eyeX.toString() +
                 ", eyeY=" + eyeY.toString() +
                 ", targetX=" + targetX.toString() +
@@ -65,6 +67,9 @@ public class DataObject {
 
     public JSONObject getJsonObject() throws JSONException {
         JSONObject obj = new JSONObject();
+        obj.put("type", mTestName);
+        obj.put("frame",mFrameCount);
+        obj.put("fps",30);
         obj.put("eyeX", eyeX);
         obj.put("eyeY", eyeY);
         obj.put("targetX", targetX);
@@ -74,7 +79,9 @@ public class DataObject {
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("TestName", mTestName);
+        result.put("testName", mTestName);
+        result.put("frame",mFrameCount);
+        result.put("fps",30);
         result.put("eyeX", eyeX);
         result.put("eyeY", eyeY);
         result.put("targetX", targetX);

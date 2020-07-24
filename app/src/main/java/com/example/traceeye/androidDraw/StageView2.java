@@ -20,8 +20,6 @@ public class StageView2 extends AbstractRenderView {
         public float x;
         public float y;
     }
-
-    private int mCount = 0;
     private final int RECT_SIZE = 300;
     private final int FRAME = 30 * DeviceUtil.getInstance().getStageValue(1);
     private final int FRAME_SCENE = 2;
@@ -86,25 +84,25 @@ public class StageView2 extends AbstractRenderView {
     }
     @Override
     protected void drawImpl(Canvas canvas) {
-        mCount++;
-        int c = mCount / FRAME;
+        mFrameCount++;
+        int c = mFrameCount / FRAME;
         if (FRAME_SCENE == c) {
             finish();
             goHome();
             return;
         }
 
-        drawRect(canvas, Math.round(mRectTargetPoint[c].x - (mRectMove[c].x * (mCount % FRAME))),
-                Math.round(mRectTargetPoint[c].y - (mRectMove[c].y * (mCount % FRAME))));
+        drawRect(canvas, Math.round(mRectTargetPoint[c].x - (mRectMove[c].x * (mFrameCount % FRAME))),
+                Math.round(mRectTargetPoint[c].y - (mRectMove[c].y * (mFrameCount % FRAME))));
 
-        drawStar(canvas, Math.round(mStarTargetPoint1[c].x - (mRectStar1[c].x * (mCount % FRAME))),
-                Math.round(mStarTargetPoint1[c].y - (mRectStar1[c].y * (mCount % FRAME))));
+        drawStar(canvas, Math.round(mStarTargetPoint1[c].x - (mRectStar1[c].x * (mFrameCount % FRAME))),
+                Math.round(mStarTargetPoint1[c].y - (mRectStar1[c].y * (mFrameCount % FRAME))));
 
-        drawStar(canvas, Math.round(mStarTargetPoint2[c].x - (mRectStar2[c].x * (mCount % FRAME))),
-                Math.round(mStarTargetPoint2[c].y - (mRectStar2[c].y * (mCount % FRAME))));
+        drawStar(canvas, Math.round(mStarTargetPoint2[c].x - (mRectStar2[c].x * (mFrameCount % FRAME))),
+                Math.round(mStarTargetPoint2[c].y - (mRectStar2[c].y * (mFrameCount % FRAME))));
 
-        drawDoubleTriangle(canvas, Math.round(mTriangleTargetPoint[c].x - (mRectTriangle[c].x * (mCount % FRAME))),
-                Math.round(mTriangleTargetPoint[c].y - (mRectTriangle[c].y * (mCount % FRAME))));
+        drawDoubleTriangle(canvas, Math.round(mTriangleTargetPoint[c].x - (mRectTriangle[c].x * (mFrameCount % FRAME))),
+                Math.round(mTriangleTargetPoint[c].y - (mRectTriangle[c].y * (mFrameCount % FRAME))));
     }
 
     private void drawStar(Canvas canvas, float x, float y) {

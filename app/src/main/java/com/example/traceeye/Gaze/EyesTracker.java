@@ -43,7 +43,8 @@ public class EyesTracker {
 
     public void initGaze() {
         GazeDevice gazeDevice = new GazeDevice();
-        gazeDevice.addDeviceInfo(Build.MODEL, 0.0f, 0.0f); // tab s5e
+        gazeDevice.getCurrentDeviceInfo();
+        gazeDevice.addDeviceInfo(Build.MODEL, 0.0f, 0.0f);
         String licenseKey = "dev_nsxejtconuuwunblh6u6ahcepo3qj3tix528n4xk";
         GazeTracker.initGazeTracker(mContext.getApplicationContext(), gazeDevice, licenseKey, initializationCallback);
         backgroundThread.start();
@@ -103,7 +104,7 @@ public class EyesTracker {
         public void onCalibrationNextPoint(final float x, final float y) {
             Log.d(TAG, "onCalibrationNextPoint: " + x+ " "+y);
             mCallback.onCalibrationNextPoint(x,y);
-            // 캘리브레이션 좌표가 설정된후 1초간 대기한후 샘플을 수집, 눈이 좌표를 찾고나서 캘리브레이션을 진행해야함
+
             backgroundHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
