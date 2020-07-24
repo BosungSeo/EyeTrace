@@ -28,10 +28,9 @@ public class StageReport extends AbstractRenderView {
     private final int THIRD_SECTION = FIRST_SECTION * 7;
     private final int LAST_SECTION = FIRST_SECTION * 10;
     private final int PADDING = DeviceUtil.getInstance().getDisplayWidth() / 5;
-    private final int ZOOM = 5;
+    private final int ZOOM = 17000/DeviceUtil.getInstance().getDisplayHeight();
     private final int SHOW_SEC = 90;
     private final int PADDING2 = PADDING + PADDING;
-
     private DataObject mDataList = null;
 
     public StageReport(Context context, ViewCallback callback) {
@@ -65,18 +64,18 @@ public class StageReport extends AbstractRenderView {
     private void calEyeY() {
         float onePoint = (float) (WIDTH - PADDING2) / (float) mDataList.getSize();
         mPath.reset();
-        mPath.moveTo((float) (PADDING), (float) ((mDataList.eyeY.get(0).intValue() / ZOOM) + SECOND_SECTION));
+        mPath.moveTo((float) (PADDING), (float) (mDataList.eyeY.get(0).intValue() / ZOOM + SECOND_SECTION));
         for (int i = 1; i < mDataList.getSize(); i++) {
-            mPath.lineTo((float) (i * onePoint) + PADDING, (float) ((mDataList.eyeY.get(i).intValue() / ZOOM) + SECOND_SECTION));
+            mPath.lineTo((float) (i * onePoint) + PADDING, (float) (mDataList.eyeY.get(i).intValue() / ZOOM + SECOND_SECTION));
         }
     }
 
     private void calMoveY() {
         float onePoint = (float) (WIDTH - PADDING2) / (float) mDataList.getSize();
         mPath.reset();
-        mPath.moveTo((float) (PADDING), (float) ((mDataList.targetY.get(0).intValue() / ZOOM) + SECOND_SECTION));
+        mPath.moveTo((float) (PADDING), (float) (mDataList.targetY.get(0).intValue() / ZOOM + SECOND_SECTION));
         for (int i = 1; i < mDataList.getSize(); i++) {
-            mPath.lineTo((float) (i * onePoint) + PADDING, (float) ((mDataList.targetY.get(i).intValue() / ZOOM) + SECOND_SECTION));
+            mPath.lineTo((float) (i * onePoint) + PADDING, (float) (mDataList.targetY.get(i).intValue() / ZOOM + SECOND_SECTION));
         }
     }
 
