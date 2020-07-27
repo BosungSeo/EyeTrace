@@ -35,12 +35,24 @@ public class ReportView implements AdapterView.OnItemClickListener, DataManager.
 
     @Override
     public void databaseResult(DataObject r) {
-        SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분");
-        String getTime = simpleDate.format( new Date(r.mTime));
-        movieDataList.add(new ListData(r.mTestName,getTime,r));
-        myAdapter.notifyDataSetChanged();
+        if(r != null) {
+            SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분");
+            String getTime = simpleDate.format(new Date(r.mTime));
+            movieDataList.add(new ListData(r.mTestName, getTime, r));
+            myAdapter.notifyDataSetChanged();
+        }
+        else {
+            showToast("No Data in Cloud or Not connect Internet", false);
+        }
     }
-
+    public void showToast(final String msg, final boolean isShort) {
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(mainActivity, msg, isShort ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG).show();
+            }
+        });
+    }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Toast.makeText(mainActivity.getApplicationContext(),

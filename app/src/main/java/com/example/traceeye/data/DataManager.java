@@ -97,8 +97,10 @@ public class DataManager {
         }
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
-            DataObject a = new DataObject(mTime, (Map<String, Object>) snapshot.getValue());
-            mCallback.databaseResult(a);
+            if(snapshot.getValue() != null) {
+                DataObject a = new DataObject(mTime, (Map<String, Object>) snapshot.getValue());
+                mCallback.databaseResult(a);
+            }
         }
 
         @Override
@@ -112,14 +114,19 @@ public class DataManager {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // dataSnapshot.child()
-                Map<String, Object> ooo = (Map<String, Object>) snapshot.getValue();
-                mItemTimeTable = new long[ooo.size()];
-                int i = 0;
-                for (String key : ooo.keySet()) {
-                    Log.d(TAG, key);
-                    mItemTimeTable[i++] = Long.parseLong(key);
+                if(snapshot.getValue() != null) {
+                    Map<String, Object> ooo = (Map<String, Object>) snapshot.getValue();
+                    mItemTimeTable = new long[ooo.size()];
+                    int i = 0;
+                    for (String key : ooo.keySet()) {
+                        Log.d(TAG, key);
+                        mItemTimeTable[i++] = Long.parseLong(key);
+                    }
+                    loadData();
                 }
-                loadData();
+                else {
+                    mCallback.databaseResult(null);
+                }
             }
 
             @Override
