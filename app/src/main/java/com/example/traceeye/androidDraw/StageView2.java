@@ -76,7 +76,7 @@ public class StageView2 extends AbstractRenderView {
         int y = DeviceUtil.getInstance().getDisplayHeight() / 2;
         mPaint.setColor(Color.BLACK);
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setTextSize(100);
+        mPaint.setTextSize(80);
         mPaint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText("Follow this target image as it", x, y - 600, mPaint);
         canvas.drawText("moves around the screen", x, y - 470, mPaint);

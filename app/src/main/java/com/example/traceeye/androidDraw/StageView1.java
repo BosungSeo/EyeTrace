@@ -5,14 +5,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.util.Log;
 
 import com.example.traceeye.DeviceUtil;
 
 public class StageView1 extends AbstractRenderView {
-    private Point[] mObjects = new Point[10];
     private final int CIRCLE_SIZE = 15 * DeviceUtil.getInstance().getStageValue(4);
-    private final int LINE_SIZE = 5* DeviceUtil.getInstance().getStageValue(4);
+    private final int LINE_SIZE = 5 * DeviceUtil.getInstance().getStageValue(4);
     private final int SPEED = 15 * DeviceUtil.getInstance().getStageValue(0);
+    private final int OBJECT_NUM = 10;
+    private Point[] mObjects = new Point[OBJECT_NUM];
 
     public StageView1(Context context, ViewCallback callback) {
         super(context, callback);
@@ -20,7 +22,7 @@ public class StageView1 extends AbstractRenderView {
     }
 
     private void calPoint() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < OBJECT_NUM; i++) {
             mObjects[i] = new Point();
         }
         /*mObjects[0].x = 15;
@@ -43,17 +45,73 @@ public class StageView1 extends AbstractRenderView {
         mObjects[8].y = 35;
         mObjects[9].x = 65;
         mObjects[9].y = 20;*/
-        for(int x=0;x<10;x++) {
-            mObjects[x].x = (int) (Math.random() * 80) + 10;
-            mObjects[x].y = (int) (Math.random() * 80) + 10;
-            mObjects[x].x = (DeviceUtil.getInstance().getDisplayWidth() / 100) * mObjects[x].x;
-            mObjects[x].y = (DeviceUtil.getInstance().getDisplayHeight() / 100) * mObjects[x].y;
+        int destX;
+        int destY;
+        mObjects[0].x = 50;
+        mObjects[0].y = 50;
+        while (true) {
+            destX = (int) (Math.random() * 80) + 10;
+            destY = (int) (Math.random() * 80) + 10;
+            int l = ((mObjects[0].x - destX) * (mObjects[0].x - destX)) + ((mObjects[0].y - destY) * (mObjects[0].y - destY));
+            if (l < 1500 && l>800)
+                break;
         }
-        /*for (int j = 0; j < 10; j++) {
+        mObjects[1].x = destX;
+        mObjects[1].y = destY;
+        while (true) {
+            destX = (int) (Math.random() * 80) + 10;
+            destY = (int) (Math.random() * 80) + 10;
+            int l = ((mObjects[1].x - destX) * (mObjects[1].x - destX)) + ((mObjects[1].y - destY) * (mObjects[1].y - destY));
+            if (l < 1500 && l>800)
+                break;
+        }
+        mObjects[2].x = destX;
+        mObjects[2].y = destY;
+
+        for (int x = 3; x < OBJECT_NUM; x++) {
+            boolean result = false;
+            while (true) {
+                destX = (int) (Math.random() * 80) + 10;
+                destY = (int) (Math.random() * 80) + 10;
+                int l = ((mObjects[x - 1].x - destX) * (mObjects[x - 1].x - destX)) + ((mObjects[x - 1].y - destY) * (mObjects[x - 1].y - destY));
+                if (l < 1500 && l>800) {
+                    break;
+                }
+            }
+            mObjects[x].x = destX;
+            mObjects[x].y = destY;
+            for (int y = 0; y < x-2; y++) {
+                if (isIntersect(mObjects[y], mObjects[y+1], mObjects[x-1], mObjects[x])) {
+                    result = true;
+
+                }
+            }
+            if(result) {
+                x--;
+                continue;
+            }
+
+            Log.d("xxxxxx","Count = "+x);
+        }
+        for (int j = 0; j < OBJECT_NUM; j++) {
             mObjects[j].x = DeviceUtil.getInstance().getDisplayWidth() / 100 * mObjects[j].x;
             mObjects[j].y = DeviceUtil.getInstance().getDisplayHeight() / 100 * mObjects[j].y;
-        }*/
+        }
     }
+
+    int ccw(Point a, Point b, Point c) {
+        int ans = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+        if (ans < 0) return 1;
+        else if (ans > 0) return -1;
+        else return 0;
+    }
+
+    boolean isIntersect(Point line1S, Point line1E, Point line2S, Point line2E) {
+        int ab = ccw(line1S, line1E, line2S) * ccw(line1S, line1E, line2E);
+        int cd = ccw(line2S, line2E, line1S) * ccw(line2S, line2E, line1E);
+        return ab <= 0 && cd <= 0;
+    }
+
     protected void readyStartDrawImpl(Canvas canvas) {
         int x = DeviceUtil.getInstance().getDisplayWidth() / 2;
         int y = DeviceUtil.getInstance().getDisplayHeight() / 2;
@@ -62,16 +120,17 @@ public class StageView1 extends AbstractRenderView {
         mPaint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(x, y - 370, 80, mPaint);
 
-        mPaint.setTextSize(100);
+        mPaint.setTextSize(80);
         mPaint.setTextAlign(Paint.Align.CENTER);
         mPaint.setColor(Color.parseColor("#000000"));
         canvas.drawText("Follow the blue dot as it", x, y - 600, mPaint);
         canvas.drawText("follows the path", x, y - 470, mPaint);
     }
+
     @Override
     protected void drawImpl(Canvas canvas) {
         mFrameCount++;
-        if (mFrameCount >= SPEED * 10) {
+        if (mFrameCount >= SPEED * OBJECT_NUM) {
             finish();
             goHome();
             return;
@@ -79,8 +138,7 @@ public class StageView1 extends AbstractRenderView {
         onDrawGuideLine(canvas);
 
 
-
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < OBJECT_NUM; i++) {
             mPaint.setColor(Color.YELLOW);
             mPaint.setStyle(Paint.Style.FILL);
             canvas.drawCircle(mObjects[i].x, mObjects[i].y, CIRCLE_SIZE, mPaint);
@@ -88,7 +146,7 @@ public class StageView1 extends AbstractRenderView {
             mPaint.setColor(Color.BLACK);
             mPaint.setStrokeWidth(10);
             mPaint.setStyle(Paint.Style.STROKE);
-            canvas.drawCircle(mObjects[i].x, mObjects[i].y, CIRCLE_SIZE+3, mPaint);
+            canvas.drawCircle(mObjects[i].x, mObjects[i].y, CIRCLE_SIZE + 3, mPaint);
         }
 
         mPaint.setColor(Color.BLUE);
@@ -101,7 +159,7 @@ public class StageView1 extends AbstractRenderView {
     private void onDrawGuideLine(Canvas canvas) {
         mPaint.setColor(Color.parseColor("#000000"));
         mPaint.setStrokeWidth(LINE_SIZE);
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < OBJECT_NUM-1; i++) {
             canvas.drawLine(mObjects[i].x, mObjects[i].y, mObjects[i + 1].x, mObjects[i + 1].y, mPaint);
         }
     }

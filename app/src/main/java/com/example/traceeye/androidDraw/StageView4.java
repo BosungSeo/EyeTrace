@@ -114,7 +114,7 @@ public class StageView4 extends AbstractRenderView {
         int y = DeviceUtil.getInstance().getDisplayHeight() / 2;
         mPaint.setColor(Color.BLACK);
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setTextSize(100);
+        mPaint.setTextSize(80);
         mPaint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText("Follow the dot as it moves", x, y - 600, mPaint);
         canvas.drawText("around the screen", x, y - 470, mPaint);

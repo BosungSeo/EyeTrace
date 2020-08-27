@@ -119,6 +119,12 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mEyesTracker.start();
+    }
+
+    @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         DeviceUtil.getInstance().changeOrient();

@@ -40,6 +40,15 @@ public class EyesTracker {
         }
         backgroundThread.quitSafely();
     }
+    public void start() {
+        if (mGazeTracker != null) {
+            this.mGazeTracker.setCallbacks(gazeCallback, calibrationCallback, eyeMovementCallback, statusCallback);
+            //}
+            this.mGazeTracker.setTrackingFPS(30);
+            this.mGazeTracker.startTracking();
+            this.mCallback.onStartTracker();
+        }
+    }
 
     public void initGaze() {
         GazeDevice gazeDevice = new GazeDevice();
@@ -53,14 +62,7 @@ public class EyesTracker {
 
     private void initSuccess(GazeTracker gazeTracker) {
         this.mGazeTracker = gazeTracker;
-        //if (preview.isAvailable()) {
-        //setCameraPreview(preview);
-        this.mGazeTracker.setCallbacks(gazeCallback, calibrationCallback, eyeMovementCallback, statusCallback);
-        //}
-        this.mGazeTracker.setTrackingFPS(30);
-        this.mGazeTracker.startTracking();
-        this.mCallback.onStartTracker();
-        // this.gazeTracker.hideProgress();
+        start();
     }
 
     private void initFail(int error) {
