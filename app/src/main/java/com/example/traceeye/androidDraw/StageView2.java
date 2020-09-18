@@ -76,11 +76,12 @@ public class StageView2 extends AbstractRenderView {
         int y = DeviceUtil.getInstance().getDisplayHeight() / 2;
         mPaint.setColor(Color.BLACK);
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setTextSize(80);
+
+        mPaint.setTextSize((DeviceUtil.getInstance().getDisplayHeight()/12));
         mPaint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText("Follow this target image as it", x, y - 600, mPaint);
-        canvas.drawText("moves around the screen", x, y - 470, mPaint);
-        drawDoubleTriangle(canvas, x, y + 700);
+        canvas.drawText("Follow this target image as it", x, y - (DeviceUtil.getInstance().getDisplayHeight()/3), mPaint);
+        canvas.drawText("moves around the screen", x, y - (DeviceUtil.getInstance().getDisplayHeight()/4), mPaint);
+        drawDoubleTriangle(canvas, x, y + (DeviceUtil.getInstance().getDisplayHeight()/2));
     }
     @Override
     protected void drawImpl(Canvas canvas) {
@@ -107,6 +108,11 @@ public class StageView2 extends AbstractRenderView {
 
     private void drawStar(Canvas canvas, float x, float y) {
         int radius = 200;
+        if(DeviceUtil.getInstance().getDisplayHeight()>1080) {
+            radius = 200;
+        } else {
+            radius = 100;
+        }
         y = y - radius;
 
         int numOfPt = 5;
@@ -132,10 +138,16 @@ public class StageView2 extends AbstractRenderView {
     }
 
     private void drawRect(Canvas canvas, int x, int y) {
+        int rect;
+        if(DeviceUtil.getInstance().getDisplayHeight()>1080) {
+            rect = RECT_SIZE;
+        } else {
+            rect = RECT_SIZE/2;
+        }
         mPaint.setColor(Color.BLACK);
         mPaint.setStrokeWidth(10);
         mPaint.setStyle(Paint.Style.STROKE);
-        canvas.drawRect(new Rect(x, y, x + RECT_SIZE, y + RECT_SIZE), mPaint);
+        canvas.drawRect(new Rect(x, y, x + rect, y + rect), mPaint);
     }
 
     private void drawDoubleTriangle(Canvas canvas, int x, int y) {
@@ -143,14 +155,27 @@ public class StageView2 extends AbstractRenderView {
         mPaint.setStrokeWidth(10);
         mPaint.setStyle(Paint.Style.STROKE);
         int side = 200;
-        int height = RECT_SIZE;
+        int height = 300;
+        int side1 = 50;
+        int side2 = 100;
+        if(DeviceUtil.getInstance().getDisplayHeight()>1080) {
+            side = 200;
+            height = 300;
+            side1 = 50;
+            side2 = 100;
+        } else {
+            side = 100;
+            height = 150;
+            side1 = 25;
+            side2 = 50;
+        }
         y = y - height;
         mViewCallback.onRecodeTargetPosition(mTrackerX, mTrackerY, x, y);
         mPath.reset();
         y = y - 70;
         Point point1_draw = new Point((int) x, (int) y);        // 왼
-        Point point2_draw = new Point((int) x - side - 50, (int) y + height - 50);  // 아래
-        Point point3_draw = new Point((int) x + side - 100, (int) y + height + 50); // 오른
+        Point point2_draw = new Point((int) x - side - side1, (int) y + height - side1);  // 아래
+        Point point3_draw = new Point((int) x + side - side2, (int) y + height + side1); // 오른
         mPath.moveTo(point1_draw.x, point1_draw.y);
         mPath.lineTo(point2_draw.x, point2_draw.y);
         mPath.lineTo(point3_draw.x, point3_draw.y);
@@ -161,8 +186,8 @@ public class StageView2 extends AbstractRenderView {
         mPath.reset();
         y = y + 140;
         point1_draw = new Point((int) x, (int) y);        // 왼
-        point2_draw = new Point((int) x - side + 100, (int) y - height - 50);  // 아래
-        point3_draw = new Point((int) x + side + 50, (int) y - height + 50); // 오른
+        point2_draw = new Point((int) x - side + side2, (int) y - height - side1);  // 아래
+        point3_draw = new Point((int) x + side + side1, (int) y - height + side1); // 오른
         mPath.moveTo(point1_draw.x, point1_draw.y);
         mPath.lineTo(point2_draw.x, point2_draw.y);
         mPath.lineTo(point3_draw.x, point3_draw.y);

@@ -9,6 +9,7 @@ import com.example.traceeye.DeviceUtil;
 
 
 abstract public class AbstractRenderView extends DrawView {
+    protected final int FRAME = 30;
     private final String TAG = AbstractRenderView.class.getSimpleName();
     protected int mFrameCount;
     protected int mTrackerX;
@@ -18,10 +19,9 @@ abstract public class AbstractRenderView extends DrawView {
     protected int[] mXGuideLine = new int[mXGuidLineLength];
     protected int[] mYGuideLine = new int[mYGuidLineLength];
     protected boolean mReadyStart = false;
-    Animator mAnimator;
     protected ViewCallback mViewCallback;
-    protected final int FRAME = 30;
     protected int mReadCount = FRAME * 4;
+    Animator mAnimator;
 
     public AbstractRenderView(Context context, ViewCallback callback) {
         super(context);
@@ -103,15 +103,18 @@ abstract public class AbstractRenderView extends DrawView {
     protected void readyStartDraw(Canvas canvas) {
         mPaint.setColor(Color.BLACK);
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setTextSize(150);
+        mPaint.setTextSize((DeviceUtil.getInstance().getDisplayHeight() / 8));
         mPaint.setTextAlign(Paint.Align.CENTER);
         int x = DeviceUtil.getInstance().getDisplayWidth() / 2;
         int y = DeviceUtil.getInstance().getDisplayHeight() / 2;
-        canvas.drawText("Ready?", x, y - 100, mPaint);
-        canvas.drawText(Integer.toString(mReadCount / FRAME + 1), x, y + 100, mPaint);
+        canvas.drawText("Ready?", x, y - (DeviceUtil.getInstance().getDisplayHeight() / 10), mPaint);
+        canvas.drawText(Integer.toString(mReadCount / FRAME + 1), x, y + (DeviceUtil.getInstance().getDisplayHeight() / 10), mPaint);
         readyStartDrawImpl(canvas);
     }
-    protected void readyStartDrawImpl(Canvas canvas) {}
+
+    protected void readyStartDrawImpl(Canvas canvas) {
+    }
+
     public void onCalibrationProgress(float progress) {
 
     }

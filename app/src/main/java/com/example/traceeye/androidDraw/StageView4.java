@@ -10,7 +10,7 @@ import com.example.traceeye.DeviceUtil;
 
 public class StageView4 extends AbstractRenderView {
     private final int SPEED = 10 * DeviceUtil.getInstance().getStageValue(3);
-    private final int PADDING = 100;
+    private final int PADDING = (DeviceUtil.getInstance().getDisplayHeight()/10);
     private final int SCENE = 16;
     private final int LAST_FRAME = SPEED * SCENE;
     private Point mPoint;
@@ -163,7 +163,8 @@ public class StageView4 extends AbstractRenderView {
         mPoint.y = mPoint.y + directionY;
         mPaint.setColor(Color.BLUE);
         mPaint.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(mPoint.x, mPoint.y, 55, mPaint);
+
+        canvas.drawCircle(mPoint.x, mPoint.y, (DeviceUtil.getInstance().getDisplayHeight()/18), mPaint);
         mViewCallback.onRecodeTargetPosition(mTrackerX, mTrackerY, mPoint.x, mPoint.y);
     }
 }

@@ -1,14 +1,20 @@
 package com.example.traceeye.data;
 
-public class ListData {
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class ListData implements Comparable {
     private String mDate;
+    private long mLongDate;
     private String mTestName;
     private DataObject mObject;
 
-    public ListData(String mDate, String mTestName, DataObject object) {
-        this.mDate = mDate;
-        this.mTestName = mTestName;
+    public ListData(DataObject object) {
+        this.mLongDate = object.mTime;
+        this.mTestName = object.mTestName;
         this.mObject = object;
+        SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분");
+        this.mDate = simpleDate.format(new Date(mLongDate));
     }
 
     public String getmDate() {
@@ -23,5 +29,13 @@ public class ListData {
     }
     public void setmTestName(String mTestName) {
         this.mTestName = mTestName;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        long i = ((ListData)o).mLongDate;
+        if (mLongDate == i)
+            return 0;
+        return mLongDate < i ? 1 : -1;
     }
 }

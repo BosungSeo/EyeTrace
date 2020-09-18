@@ -11,21 +11,25 @@ import com.example.traceeye.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
-public class ReportView implements AdapterView.OnItemClickListener, DataManager.Callback{
+public class ReportView implements AdapterView.OnItemClickListener, DataManager.Callback {
     private MainActivity mainActivity;
     private ArrayList<ListData> movieDataList;
     private DataAdeptor myAdapter;
+
     public ReportView(MainActivity activity) {
         mainActivity = activity;
     }
+
     public void init() {
         movieDataList = new ArrayList<ListData>();
         mainActivity.setContentView(R.layout.activity_report);
 
-        ListView listView = (ListView)mainActivity.findViewById(R.id.listView);
-        myAdapter = new DataAdeptor(mainActivity,movieDataList);
+        ListView listView = (ListView) mainActivity.findViewById(R.id.listView);
+        myAdapter = new DataAdeptor(mainActivity, movieDataList);
         listView.setAdapter(myAdapter);
         listView.setOnItemClickListener(this);
 
@@ -35,16 +39,15 @@ public class ReportView implements AdapterView.OnItemClickListener, DataManager.
 
     @Override
     public void databaseResult(DataObject r) {
-        if(r != null) {
-            SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분");
-            String getTime = simpleDate.format(new Date(r.mTime));
-            movieDataList.add(new ListData(r.mTestName, getTime, r));
+        if (r != null) {
+            movieDataList.add(new ListData(r));
+            Collections.sort(movieDataList);
             myAdapter.notifyDataSetChanged();
-        }
-        else {
+        } else {
             showToast("No Data in Cloud or Not connect Internet", false);
         }
     }
+
     public void showToast(final String msg, final boolean isShort) {
         mainActivity.runOnUiThread(new Runnable() {
             @Override
@@ -53,6 +56,7 @@ public class ReportView implements AdapterView.OnItemClickListener, DataManager.
             }
         });
     }
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Toast.makeText(mainActivity.getApplicationContext(),

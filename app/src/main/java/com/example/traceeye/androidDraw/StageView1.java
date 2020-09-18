@@ -14,37 +14,17 @@ public class StageView1 extends AbstractRenderView {
     private final int LINE_SIZE = 5 * DeviceUtil.getInstance().getStageValue(4);
     private final int SPEED = 15 * DeviceUtil.getInstance().getStageValue(0);
     private final int OBJECT_NUM = 10;
+    private StageView1Data mRandomDataSet;
     private Point[] mObjects = new Point[OBJECT_NUM];
 
     public StageView1(Context context, ViewCallback callback) {
         super(context, callback);
         calPoint();
     }
-
-    private void calPoint() {
+    private void randomCalPoint() {
         for (int i = 0; i < OBJECT_NUM; i++) {
             mObjects[i] = new Point();
         }
-        /*mObjects[0].x = 15;
-        mObjects[0].y = 10;
-        mObjects[1].x = 45;
-        mObjects[1].y = 11;
-        mObjects[2].x = 20;
-        mObjects[2].y = 35;
-        mObjects[3].x = 30;
-        mObjects[3].y = 80;
-        mObjects[4].x = 50;
-        mObjects[4].y = 50;
-        mObjects[5].x = 47;
-        mObjects[5].y = 80;
-        mObjects[6].x = 80;
-        mObjects[6].y = 80;
-        mObjects[7].x = 80;
-        mObjects[7].y = 10;
-        mObjects[8].x = 65;
-        mObjects[8].y = 35;
-        mObjects[9].x = 65;
-        mObjects[9].y = 20;*/
         int destX;
         int destY;
         mObjects[0].x = 50;
@@ -93,6 +73,17 @@ public class StageView1 extends AbstractRenderView {
 
             Log.d("xxxxxx","Count = "+x);
         }
+    }
+    private void randomGet() {
+        mRandomDataSet = new StageView1Data();
+        mRandomDataSet.generator();
+        int index = (int) (Math.random() * 6);
+        for(int i=0; i<10;i++) {
+            mObjects[i] = mRandomDataSet.getPoint(index, i);
+        }
+    }
+    private void calPoint() {
+        randomGet();
         for (int j = 0; j < OBJECT_NUM; j++) {
             mObjects[j].x = DeviceUtil.getInstance().getDisplayWidth() / 100 * mObjects[j].x;
             mObjects[j].y = DeviceUtil.getInstance().getDisplayHeight() / 100 * mObjects[j].y;
@@ -118,7 +109,8 @@ public class StageView1 extends AbstractRenderView {
 
         mPaint.setColor(Color.BLUE);
         mPaint.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(x, y - 370, 80, mPaint);
+
+        canvas.drawCircle(x, y - (DeviceUtil.getInstance().getDisplayHeight()/4), (DeviceUtil.getInstance().getDisplayHeight()/15), mPaint);
 
         mPaint.setTextSize(80);
         mPaint.setTextAlign(Paint.Align.CENTER);
