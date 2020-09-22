@@ -11,6 +11,7 @@ import com.example.traceeye.DeviceUtil;
 public class StageView4 extends AbstractRenderView {
     private final int SPEED = 10 * DeviceUtil.getInstance().getStageValue(3);
     private final int PADDING = (DeviceUtil.getInstance().getDisplayHeight()/10);
+    private final int PADDING_BOTTOM = 150;
     private final int SCENE = 16;
     private final int LAST_FRAME = SPEED * SCENE;
     private Point mPoint;
@@ -19,7 +20,7 @@ public class StageView4 extends AbstractRenderView {
     private Point mLeft = new Point(PADDING, mCenter.y);
     private Point mRight = new Point(DeviceUtil.getInstance().getDisplayWidth() - PADDING, mCenter.y);
     private Point mUp = new Point(mCenter.x, PADDING);
-    private Point mDown = new Point(mCenter.x, DeviceUtil.getInstance().getDisplayHeight() - PADDING);
+    private Point mDown = new Point(mCenter.x, DeviceUtil.getInstance().getDisplayHeight() - PADDING_BOTTOM);
     private int directionX = 0;
     private int directionY = 0;
 
@@ -114,10 +115,10 @@ public class StageView4 extends AbstractRenderView {
         int y = DeviceUtil.getInstance().getDisplayHeight() / 2;
         mPaint.setColor(Color.BLACK);
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setTextSize(80);
+        mPaint.setTextSize(50);
         mPaint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText("Follow the dot as it moves", x, y - 600, mPaint);
-        canvas.drawText("around the screen", x, y - 470, mPaint);
+        canvas.drawText("Follow the dot as it moves", x, y - (DeviceUtil.getInstance().getDisplayHeight()/3), mPaint);
+        canvas.drawText("around the screen", x, y - (DeviceUtil.getInstance().getDisplayHeight()/4), mPaint);
     }
     protected void drawImpl(Canvas canvas) {
         switch (mFrameCount) {

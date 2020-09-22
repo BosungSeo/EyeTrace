@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/view1Btn"
+            android:layout_width="@dimen/port_button_width"
+            android:layout_height="@dimen/port_button_height"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="40dp"
+            android:text="@string/test_1_button"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintEnd_toStartOf="@+id/viewReportBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/view2Btn"
+            android:layout_width="@dimen/port_button_width"
+            android:layout_height="@dimen/port_button_height"
+            android:layout_marginTop="20dp"
+            android:text="@string/test_2_button"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintStart_toStartOf="@+id/view1Btn"
+            app:layout_constraintTop_toBottomOf="@+id/view1Btn" />
+
+        <Button
+            android:id="@+id/view3Btn"
+            android:layout_width="@dimen/port_button_width"
+            android:layout_height="@dimen/port_button_height"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/test_3_button"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintBottom_toTopOf="@+id/view4Btn"
+            app:layout_constraintStart_toStartOf="@+id/view1Btn"
+            app:layout_constraintTop_toBottomOf="@+id/view2Btn" />
+
+        <Button
+            android:id="@+id/view4Btn"
+            android:layout_width="@dimen/port_button_width"
+            android:layout_height="@dimen/port_button_height"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/test_4_button"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/view1Btn"
+            app:layout_constraintTop_toBottomOf="@+id/view3Btn" />
+
+        <Button
+            android:id="@+id/viewReportBtn"
+            android:layout_width="@dimen/port_button_width"
+            android:layout_height="@dimen/port_button_height"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:text="@string/view_reports_button"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/view1Btn"
+            app:layout_constraintTop_toTopOf="@+id/view1Btn" />
+
+        <Button
+            android:id="@+id/viewCalBtn"
+            android:layout_width="@dimen/port_button_width"
+            android:layout_height="@dimen/port_button_height"
+            android:text="@string/calibration_button"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintEnd_toEndOf="@+id/viewReportBtn"
+            app:layout_constraintStart_toStartOf="@+id/viewReportBtn"
+            app:layout_constraintTop_toTopOf="@+id/view2Btn" />
+
+        <Button
+            android:id="@+id/settingBtn"
+            android:layout_width="@dimen/port_button_width"
+            android:layout_height="@dimen/port_button_height"
+            android:text="@string/setting_button"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintEnd_toEndOf="@+id/viewCalBtn"
+            app:layout_constraintStart_toStartOf="@+id/viewCalBtn"
+            app:layout_constraintTop_toTopOf="@+id/view3Btn" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -24,7 +24,7 @@ public class SettingView implements SeekBar.OnSeekBarChangeListener, Button.OnCl
         if(DeviceUtil.getInstance().getOrient()) {
             mUIView.setContentView(R.layout.activity_setting);
         } else {
-            mUIView.setContentView(R.layout.activity_setting_land);
+            mUIView.setContentView(R.layout.activity_setting);
         }
         mSeeker[4] = (SeekBar) mUIView.findViewById(R.id.seekBar0);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

@@ -85,8 +85,11 @@ public class AdjustView extends AbstractRenderView {
         mCurrentFrame++;
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setColor(Color.parseColor("#000000"));
-        canvas.drawText("조절 완료.", 100, 300, mPaint);
-        canvas.drawText("잠시 후 처음 화면으로 넘어갑니다.", 100, 400, mPaint);
+        int x = DeviceUtil.getInstance().getDisplayWidth() / 2;
+        int y = DeviceUtil.getInstance().getDisplayHeight() / 2;
+
+        canvas.drawText("조절 완료.", x, y / 4, mPaint);
+        canvas.drawText("잠시 후 처음 화면으로 넘어갑니다.", x, y / 2, mPaint);
         mPaint.setColor(Color.parseColor("#FF0000"));
         canvas.drawCircle(mCP.x, mCP.y, 30, mPaint);
 

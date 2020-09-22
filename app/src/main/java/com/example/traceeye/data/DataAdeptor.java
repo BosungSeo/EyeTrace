@@ -44,8 +44,8 @@ public class DataAdeptor extends BaseAdapter {
         TextView dateText = (TextView) view.findViewById(R.id.test_date);
         TextView nameText = (TextView) view.findViewById(R.id.test_name);
 
-        dateText.setText(sample.get(position).getmTestName());
-        nameText.setText(sample.get(position).getmDate());
+        dateText.setText(sample.get(position).getmDate());
+        nameText.setText(sample.get(position).getmTestName());
         return view;
     }
 }

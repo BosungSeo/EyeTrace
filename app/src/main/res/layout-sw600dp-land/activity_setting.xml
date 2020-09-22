@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/test_1_1_setting_text"
+        android:textAlignment="center"
+        fab:layout_constraintStart_toStartOf="parent"
+        fab:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="148dp"
+        android:text="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        fab:layout_constraintStart_toStartOf="@+id/textView0"
+        fab:layout_constraintTop_toBottomOf="@+id/textView0" />
+
+    <SeekBar
+        android:id="@+id/seekBar0"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        fab:layout_constraintStart_toStartOf="@+id/textView0"
+        fab:layout_constraintTop_toBottomOf="@+id/txt0" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/test_1_setting_text"
+        android:textAlignment="center"
+        fab:layout_constraintStart_toStartOf="@+id/seekBar0"
+        fab:layout_constraintTop_toBottomOf="@+id/seekBar0" />
+
+    <TextView
+        android:id="@+id/txt1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="148dp"
+        android:text="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        fab:layout_constraintStart_toStartOf="@+id/textView"
+        fab:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <SeekBar
+        android:id="@+id/seekBar1"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        fab:layout_constraintStart_toStartOf="@+id/textView"
+        fab:layout_constraintTop_toBottomOf="@+id/txt1" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/test_2_setting_text"
+        android:textAlignment="center"
+        fab:layout_constraintEnd_toEndOf="parent"
+        fab:layout_constraintEnd_toStartOf="@+id/txt2"
+        fab:layout_constraintHorizontal_bias="0.0"
+        fab:layout_constraintStart_toStartOf="@+id/textView"
+        fab:layout_constraintTop_toBottomOf="@+id/seekBar1" />
+
+    <TextView
+        android:id="@+id/txt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="148dp"
+        android:layout_marginTop="8dp"
+        android:text="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        fab:layout_constraintStart_toStartOf="@+id/textView"
+        fab:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <SeekBar
+        android:id="@+id/seekBar2"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        fab:layout_constraintEnd_toEndOf="parent"
+        fab:layout_constraintHorizontal_bias="0.0"
+        fab:layout_constraintStart_toStartOf="@+id/textView"
+        fab:layout_constraintTop_toBottomOf="@+id/txt2"/>
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginEnd="200dp"
+        android:text="@string/test_3_setting_text"
+        android:textAlignment="center"
+        fab:layout_constraintEnd_toEndOf="parent"
+        fab:layout_constraintTop_toTopOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/txt3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="104dp"
+        android:text="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        fab:layout_constraintEnd_toEndOf="@+id/textView3"
+        fab:layout_constraintTop_toTopOf="@+id/txt1" />
+
+    <SeekBar
+        android:id="@+id/seekBar3"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        fab:layout_constraintEnd_toEndOf="@+id/textView3"
+        fab:layout_constraintTop_toTopOf="@+id/seekBar1" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/test_4_setting_text"
+        android:textAlignment="center"
+        fab:layout_constraintEnd_toEndOf="@+id/textView3"
+        fab:layout_constraintTop_toBottomOf="@+id/seekBar3" />
+
+
+    <TextView
+        android:id="@+id/txt4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="104dp"
+        android:text="1"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        fab:layout_constraintEnd_toEndOf="@+id/textView3"
+        fab:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <SeekBar
+        android:id="@+id/seekBar4"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        fab:layout_constraintEnd_toEndOf="@+id/textView3"
+        fab:layout_constraintTop_toBottomOf="@+id/txt4" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="372dp"
+        android:text=" 포인트표시"
+        fab:layout_constraintEnd_toEndOf="@+id/seekBar2"
+        fab:layout_constraintTop_toTopOf="parent"
+        android:checked="true"/>
+
+    <CheckBox
+        android:id="@+id/checkBox_cal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FivePoint Calibration"
+        fab:layout_constraintBottom_toBottomOf="@+id/checkBox"
+        fab:layout_constraintStart_toStartOf="@+id/seekBar4"
+        fab:layout_constraintTop_toTopOf="@+id/checkBox"
+        android:checked="true"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
