@@ -115,13 +115,13 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
     @Override
     protected void onPause() {
         super.onPause();
-        mEyesTracker.stop();
+        //mEyesTracker.stop();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mEyesTracker.start();
+        //mEyesTracker.start();
     }
 
     @Override
@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements AbstractRenderVie
         if (DeviceUtil.getInstance().getOrient()) {
             setContentView(R.layout.activity_main);
         } else {
-            setContentView(R.layout.activity_main_land);
+            setContentView(R.layout.activity_main);
         }
         ((Button) findViewById(R.id.viewReportBtn)).setOnClickListener(this);
         ((Button) findViewById(R.id.view1Btn)).setOnClickListener(this);

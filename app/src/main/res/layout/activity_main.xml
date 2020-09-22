@@ -43,10 +43,11 @@
         android:id="@+id/view4Btn"
         android:layout_width="@dimen/port_button_width"
         android:layout_height="@dimen/port_button_height"
-        android:layout_marginTop="@dimen/port_button_margin"
+        android:layout_marginTop="8dp"
         android:text="@string/test_4_button"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view3Btn" />
 

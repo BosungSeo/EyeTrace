@@ -12,7 +12,7 @@ import com.example.traceeye.DeviceUtil;
 import com.example.traceeye.R;
 
 public class StageView3 extends AbstractRenderView {
-    private final int MARGIN = 100;
+    private final int MARGIN = 200;
     private final int CHANGE_FRAME = 15 * DeviceUtil.getInstance().getStageValue(2);
     Bitmap mBitmap;
     private Point mPoint;
@@ -29,18 +29,18 @@ public class StageView3 extends AbstractRenderView {
     }
 
     private void randomGenerator() {
-        mPoint.x = (int) (Math.random() * mRandomRange.x) + (MARGIN / 2);
-        mPoint.y = (int) (Math.random() * mRandomRange.y) + (MARGIN / 2);
+        mPoint.x = (int) (Math.random() * (mRandomRange.x - MARGIN)) + (MARGIN / 2);
+        mPoint.y = (int) (Math.random() * (mRandomRange.y - MARGIN)) + (MARGIN / 2);
     }
     protected void readyStartDrawImpl(Canvas canvas) {
         int x = DeviceUtil.getInstance().getDisplayWidth() / 2;
         int y = DeviceUtil.getInstance().getDisplayHeight() / 2;
         mPaint.setColor(Color.BLACK);
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setTextSize(80);
+        mPaint.setTextSize(50);
         mPaint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText("Follow the image as it blinks", x, y - 600, mPaint);
-        canvas.drawText("around the screen", x, y - 470, mPaint);
+        canvas.drawText("Follow the image as it blinks", x, y - (DeviceUtil.getInstance().getDisplayHeight()/3), mPaint);
+        canvas.drawText("around the screen", x, y - (DeviceUtil.getInstance().getDisplayHeight()/4), mPaint);
     }
     protected void drawImpl(Canvas canvas) {
         mFrameCount++;

@@ -86,7 +86,7 @@ public class StageView1 extends AbstractRenderView {
         randomGet();
         for (int j = 0; j < OBJECT_NUM; j++) {
             mObjects[j].x = DeviceUtil.getInstance().getDisplayWidth() / 100 * mObjects[j].x;
-            mObjects[j].y = DeviceUtil.getInstance().getDisplayHeight() / 100 * mObjects[j].y;
+            mObjects[j].y = DeviceUtil.getInstance().getDisplayHeight() / 120 * mObjects[j].y;
         }
     }
 
@@ -112,11 +112,11 @@ public class StageView1 extends AbstractRenderView {
 
         canvas.drawCircle(x, y - (DeviceUtil.getInstance().getDisplayHeight()/4), (DeviceUtil.getInstance().getDisplayHeight()/15), mPaint);
 
-        mPaint.setTextSize(80);
+        mPaint.setTextSize(50);
         mPaint.setTextAlign(Paint.Align.CENTER);
         mPaint.setColor(Color.parseColor("#000000"));
-        canvas.drawText("Follow the blue dot as it", x, y - 600, mPaint);
-        canvas.drawText("follows the path", x, y - 470, mPaint);
+        canvas.drawText("Follow the blue dot as it", x, y / 5, mPaint);
+        canvas.drawText("follows the path", x, y / 3, mPaint);
     }
 
     @Override
